@@ -19,7 +19,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>koala-im</module>
         <module>koala-core</module>
         <module>koala-web</module>
         <module>koala-starter</module>
@@ -33,17 +32,19 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <junit.version>4.11</junit.version>
+        <lombok.version>1.18.4</lombok.version>
+        <netty.version>4.1.9.Final</netty.version>
+        <dubbo.version>2.6.5</dubbo.version>
+        <apache.common3.version>3.8.1</apache.common3.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j.slf4j.impl.version>2.11.1</log4j.slf4j.impl.version>
+        <log4j.version>2.11.1</log4j.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <!--module-->
-            <dependency>
-                <groupId>com.koala</groupId>
-                <artifactId>koala-im</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.koala</groupId>
                 <artifactId>koala-core</artifactId>
@@ -79,24 +80,82 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <!--junit-->
+
+            <!--slf4j-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!--slf4j-->
+
+            <!--log4j-slf4j-impl-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.slf4j.impl.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--log4j-slf4j-impl-->
+
+            <!--log4j-api-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--log4j-api-->
+
+            <!--log4j-core-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--log4j-core-->
+
+            <!--lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!--lombok-->
 
             <!--netty-->
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.9.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <!--netty-->
+
+            <!--dubbo-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo-common</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <!--dubbo-->
 
             <!--apache common-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.8.1</version>
+                <version>${apache.common3.version}</version>
             </dependency>
             <!--apache common-->
         </dependencies>

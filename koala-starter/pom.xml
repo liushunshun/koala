@@ -15,45 +15,41 @@
         <!--module-->
         <dependency>
             <groupId>com.koala</groupId>
-            <artifactId>koala-im</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.koala</groupId>
             <artifactId>koala-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.koala</groupId>
             <artifactId>koala-web</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.koala</groupId>
-            <artifactId>koala-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.koala</groupId>
-            <artifactId>koala-util</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <!--module-->
 
-        <!--spring-boot-->
+        <!--slf4j-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
+        <!--slf4j-->
+
+        <!--log4j-slf4j-impl-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
-        <!--spring-boot-->
+        <!--log4j-slf4j-impl-->
+
+        <!--log4j-api-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <!--log4j-api-->
+
+        <!--log4j-core-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <!--log4j-core-->
     </dependencies>
 </project>

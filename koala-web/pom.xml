@@ -15,8 +15,7 @@
         <!--module-->
         <dependency>
             <groupId>com.koala</groupId>
-            <artifactId>koala-util</artifactId>
-            <version>${project.version}</version>
+            <artifactId>koala-core</artifactId>
         </dependency>
         <!--module-->
 
@@ -26,12 +25,5 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <!--spring boot-->
-
-        <!--netty-->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <!--netty-->
     </dependencies>
 </project>

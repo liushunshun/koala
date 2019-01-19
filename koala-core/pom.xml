@@ -11,5 +11,43 @@
 
     <artifactId>koala-core</artifactId>
 
+    <dependencies>
+        <!--module-->
+        <dependency>
+            <groupId>com.koala</groupId>
+            <artifactId>koala-util</artifactId>
+        </dependency>
+        <!--module-->
 
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--lombok-->
+
+        <!--netty-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <!--netty-->
+
+        <!--dubbo-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo-common</artifactId>
+        </dependency>
+        <!--dubbo-->
+
+        <!--slf4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!--slf4j-->
+    </dependencies>
 </project>
