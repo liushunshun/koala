@@ -1,0 +1,8 @@
+package com.koala.config;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class KoalaWebConfig {
+
+}
