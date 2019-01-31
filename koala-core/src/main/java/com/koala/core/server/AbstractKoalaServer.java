@@ -5,6 +5,7 @@ import com.koala.core.logger.KoalaCoreLogger;
 import com.koala.core.server.exception.KoalaServerException;
 import org.slf4j.Logger;
 
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -29,9 +30,9 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
     protected boolean started;
 
     /**
-     *
+     * 服务锁
      */
-    protected ReentrantLock reentrantLock;
+    protected Lock serverLock;
 
     protected AbstractKoalaServer() {
         this(KoalaCoreConstant.KoalaServer.DEFAULT_SERVER_NAME);
@@ -39,7 +40,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
 
     protected AbstractKoalaServer(String serverName) {
         this.serverName = serverName;
-        this.reentrantLock = new ReentrantLock();
+        this.serverLock = new ReentrantLock();
         this.started = false;
     }
 
@@ -62,7 +63,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
     public void start() throws KoalaServerException {
         //  启动服务
         //  1、尝试获取锁
-        boolean lock = this.reentrantLock.tryLock();
+        boolean lock = this.serverLock.tryLock();
         if (!lock) {
             //  没有获取到就不做处理了
             return;
@@ -76,7 +77,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
             throw new KoalaServerException(throwable);
         } finally {
             //  无论如何释放锁
-            this.reentrantLock.unlock();
+            this.serverLock.unlock();
         }
     }
 
@@ -84,7 +85,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
     public void stop() throws KoalaServerException {
         //  停止服务
         //  1、尝试获取锁
-        boolean lock = this.reentrantLock.tryLock();
+        boolean lock = this.serverLock.tryLock();
         if (!lock) {
             //  没有获取到就不做处理了
             return;
@@ -98,7 +99,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
             throw new KoalaServerException(throwable);
         } finally {
             //  无论如何释放锁
-            this.reentrantLock.unlock();
+            this.serverLock.unlock();
         }
     }
 

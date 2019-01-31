@@ -10,4 +10,5 @@ public class KoalaCoreLogger {
     static {
         koalaCoreLogger = LoggerFactory.getLogger("koalaCore");
     }
+
 }

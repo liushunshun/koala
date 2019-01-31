@@ -6,4 +6,5 @@ public interface KoalaCoreConstant {
         String DEFAULT_SERVER_NAME = "KoalaServer";
         String DEFAULT_NETTY_SERVER_NAME = "KoalaNettyServer";
     }
+
 }

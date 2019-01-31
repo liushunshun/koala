@@ -66,4 +66,5 @@ public class KoalaNettyServerConfig {
         this.childThreadNum = 2;
         this.parentThreadNum = 2;
     }
+
 }

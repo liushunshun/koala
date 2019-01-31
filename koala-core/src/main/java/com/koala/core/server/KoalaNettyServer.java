@@ -119,4 +119,5 @@ public class KoalaNettyServer extends AbstractKoalaServer {
     public void setKoalaNettyServerConfig(KoalaNettyServerConfig koalaNettyServerConfig) {
         this.koalaNettyServerConfig = koalaNettyServerConfig;
     }
+
 }

@@ -44,7 +44,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--module-->
+            <!-- module -->
             <dependency>
                 <groupId>com.koala</groupId>
                 <artifactId>koala-core</artifactId>
@@ -74,70 +74,70 @@
                 <artifactId>koala-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--module-->
+            <!-- module -->
 
-            <!--junit-->
+            <!-- junit -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!--junit-->
+            <!-- junit -->
 
-            <!--slf4j-->
+            <!-- slf4j -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <!--slf4j-->
+            <!-- slf4j -->
 
-            <!--log4j-slf4j-impl-->
+            <!-- log4j-slf4j-impl -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.slf4j.impl.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            <!--log4j-slf4j-impl-->
+            <!-- log4j-slf4j-impl -->
 
-            <!--log4j-api-->
+            <!-- log4j-api -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-api</artifactId>
                 <version>${log4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            <!--log4j-api-->
+            <!-- log4j-api -->
 
-            <!--log4j-core-->
+            <!-- log4j-core -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            <!--log4j-core-->
+            <!-- log4j-core -->
 
-            <!--lombok-->
+            <!-- lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!--lombok-->
+            <!-- lombok -->
 
-            <!--netty-->
+            <!-- netty -->
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
-            <!--netty-->
+            <!-- netty -->
 
-            <!--dubbo-->
+            <!-- dubbo -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo</artifactId>
@@ -149,15 +149,15 @@
                 <artifactId>dubbo-common</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
-            <!--dubbo-->
+            <!-- dubbo -->
 
-            <!--apache common-->
+            <!-- apache common -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${apache.common3.version}</version>
             </dependency>
-            <!--apache common-->
+            <!-- apache common -->
         </dependencies>
     </dependencyManagement>
 

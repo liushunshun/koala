@@ -12,7 +12,7 @@
     <artifactId>koala-starter</artifactId>
 
     <dependencies>
-        <!--module-->
+        <!-- module -->
         <dependency>
             <groupId>com.koala</groupId>
             <artifactId>koala-core</artifactId>
@@ -22,34 +22,34 @@
             <groupId>com.koala</groupId>
             <artifactId>koala-web</artifactId>
         </dependency>
-        <!--module-->
+        <!-- module -->
 
-        <!--slf4j-->
+        <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <!--slf4j-->
+        <!-- slf4j -->
 
-        <!--log4j-slf4j-impl-->
+        <!-- log4j-slf4j-impl -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
-        <!--log4j-slf4j-impl-->
+        <!-- log4j-slf4j-impl -->
 
-        <!--log4j-api-->
+        <!-- log4j-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
-        <!--log4j-api-->
+        <!-- log4j-api -->
 
-        <!--log4j-core-->
+        <!-- log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
-        <!--log4j-core-->
+        <!-- log4j-core -->
     </dependencies>
 </project>

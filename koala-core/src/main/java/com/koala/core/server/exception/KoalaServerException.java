@@ -27,4 +27,5 @@ public class KoalaServerException extends BaseKoalaException {
     public KoalaServerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

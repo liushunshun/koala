@@ -39,4 +39,5 @@ public interface IKoalaServer {
      * 停止IM服务
      */
     void stop() throws KoalaServerException;
+
 }
