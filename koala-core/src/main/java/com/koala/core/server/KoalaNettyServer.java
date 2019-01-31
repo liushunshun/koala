@@ -31,6 +31,7 @@ public class KoalaNettyServer extends AbstractKoalaServer {
     }
 
     private KoalaNettyServerConfig koalaNettyServerConfig;
+
     private Channel serverChannel;
 
     public KoalaNettyServer() {
