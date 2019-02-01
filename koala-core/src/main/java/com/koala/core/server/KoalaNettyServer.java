@@ -48,11 +48,11 @@ public class KoalaNettyServer extends AbstractKoalaServer {
     }
 
     @Override
-    protected void doStart() throws KoalaServerException {
+    protected boolean doStart() throws KoalaServerException {
         try {
             if (null != this.serverChannel) {
                 //  如果已经启动过了，那么返回。
-                return;
+                return false;
             }
             //  启动netty服务器
             //  1、获取参数
@@ -90,6 +90,7 @@ public class KoalaNettyServer extends AbstractKoalaServer {
                     .bind(address)
                     .sync();
             this.serverChannel = channelFuture.channel();
+            return true;
         } catch (Throwable throwable) {
             logger.error("start koala netty server exception", throwable);
             throw new KoalaServerException();
@@ -97,16 +98,17 @@ public class KoalaNettyServer extends AbstractKoalaServer {
     }
 
     @Override
-    protected void doStop() throws KoalaServerException {
+    protected boolean doStop() throws KoalaServerException {
         try {
             if (null == this.serverChannel) {
                 //  如果没有启动过，那么返回
-                return;
+                return false;
             }
             this.serverChannel
                     .close()
                     .addListener(future -> this.serverChannel = null)
                     .sync();
+            return true;
         } catch (Throwable throwable) {
             logger.error("stop koala netty server exception", throwable);
             throw new KoalaServerException();

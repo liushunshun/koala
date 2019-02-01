@@ -32,12 +32,21 @@ public interface IKoalaServer {
 
     /**
      * 启动IM服务
+     *
+     * @return 是否启动成功
+     * @throws KoalaServerException
      */
-    void start() throws KoalaServerException;
+    boolean start() throws KoalaServerException;
 
     /**
      * 停止IM服务
      */
-    void stop() throws KoalaServerException;
+    /**
+     * 停止IM服务
+     *
+     * @return 是否停止成功
+     * @throws KoalaServerException
+     */
+    boolean stop() throws KoalaServerException;
 
 }

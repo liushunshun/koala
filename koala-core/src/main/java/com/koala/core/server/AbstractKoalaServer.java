@@ -60,18 +60,22 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
     }
 
     @Override
-    public void start() throws KoalaServerException {
+    public boolean start() throws KoalaServerException {
         //  启动服务
         //  1、尝试获取锁
         boolean lock = this.serverLock.tryLock();
         if (!lock) {
             //  没有获取到就不做处理了
-            return;
+            return false;
         }
 
         try {
             //  2、启动服务
-            this.doStart();
+            boolean success = this.doStart();
+            if (success) {
+                this.started = true;
+            }
+            return success;
         } catch (Throwable throwable) {
             logger.error("start koala server exception", throwable);
             throw new KoalaServerException(throwable);
@@ -82,18 +86,22 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
     }
 
     @Override
-    public void stop() throws KoalaServerException {
+    public boolean stop() throws KoalaServerException {
         //  停止服务
         //  1、尝试获取锁
         boolean lock = this.serverLock.tryLock();
         if (!lock) {
             //  没有获取到就不做处理了
-            return;
+            return false;
         }
 
         try {
             //  2、启动服务
-            this.doStop();
+            boolean success = this.doStop();
+            if (success) {
+                this.started = false;
+            }
+            return success;
         } catch (Throwable throwable) {
             logger.error("stop koala server exception", throwable);
             throw new KoalaServerException(throwable);
@@ -103,7 +111,7 @@ public abstract class AbstractKoalaServer implements IKoalaServer {
         }
     }
 
-    protected abstract void doStart() throws KoalaServerException;
+    protected abstract boolean doStart() throws KoalaServerException;
 
-    protected abstract void doStop() throws KoalaServerException;
+    protected abstract boolean doStop() throws KoalaServerException;
 }
