@@ -2,7 +2,9 @@ package com.koala.gateway.dto;
 
 import com.koala.gateway.encoder.ByteBufferWrapper;
 import com.koala.gateway.enums.EnumProtocolType;
+import com.koala.gateway.handler.ServerHandler;
 import com.koala.gateway.protocol.HeartBeatProtocol;
+import com.koala.gateway.protocol.ProtocolFactory;
 import lombok.Data;
 
 /**
@@ -11,6 +13,9 @@ import lombok.Data;
  */
 @Data
 public class HeartBeatRequest extends BaseRequest {
+
+    private final static ServerHandler<? extends BaseRequest> serverHandler = ProtocolFactory.instance
+        .getServerHandler(EnumProtocolType.HEART_BEAT);
 
     public HeartBeatRequest(long requestId,int timeout){
         super(EnumProtocolType.HEART_BEAT.getCode(),requestId,timeout);
@@ -29,5 +34,10 @@ public class HeartBeatRequest extends BaseRequest {
         bytebufferWrapper.writeByte((byte) 0);
         bytebufferWrapper.writeLong(id);
         bytebufferWrapper.writeInt(timeout);
+    }
+
+    @Override
+    public ServerHandler<? extends BaseRequest> getServerHandler() {
+        return serverHandler;
     }
 }

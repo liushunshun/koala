@@ -1,6 +1,7 @@
 package com.koala.gateway.dto;
 
 import com.koala.gateway.constants.GatewayConstants;
+import com.koala.gateway.handler.ServerHandler;
 import com.koala.utils.UUIDGenerator;
 
 /**
@@ -28,5 +29,7 @@ public abstract class BaseRequest extends BaseHeader{
     public int getTimeout() {
         return timeout;
     }
+
+    public abstract ServerHandler<? extends BaseRequest> getServerHandler();
 
 }

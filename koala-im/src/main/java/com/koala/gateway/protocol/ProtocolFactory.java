@@ -1,6 +1,8 @@
 package com.koala.gateway.protocol;
 
 import com.koala.gateway.enums.EnumProtocolType;
+import com.koala.gateway.handler.HeartBeatServerHandler;
+import com.koala.gateway.handler.ServerHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,8 @@ import java.util.Map;
 
 public class ProtocolFactory {
 
-    private final Map<EnumProtocolType,Protocol> protocolHandlers = new HashMap<>();
+    private final Map<EnumProtocolType,Protocol> protocolHandlers = new HashMap<>(256);
+    private final Map<EnumProtocolType,ServerHandler<?>> serverHandlers = new HashMap<>(256);
 
     public static ProtocolFactory instance = new ProtocolFactory();
 
@@ -20,8 +23,13 @@ public class ProtocolFactory {
         return protocolHandlers.get(ProtocolType);
     }
 
+    public ServerHandler getServerHandler(Enum ProtocolType) {
+        return serverHandlers.get(ProtocolType);
+    }
+
     private ProtocolFactory(){
         protocolHandlers.put(EnumProtocolType.HEART_BEAT, new HeartBeatProtocol());
+        serverHandlers.put(EnumProtocolType.HEART_BEAT, new HeartBeatServerHandler());
     }
 
 }
