@@ -6,6 +6,7 @@ import com.koala.gateway.protocol.ProtocolFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author XiuYang
  * @date 2019/09/30
  */
-
+@Slf4j
 public class NettyProtocolDecoder extends ByteToMessageDecoder{
 
     @Override
@@ -34,7 +35,7 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder{
         EnumProtocolType protocolType = EnumProtocolType.getEnum(wrapper.readByte());
         Protocol protocol = ProtocolFactory.instance.getProtocol(protocolType);
         if (protocol == null) {
-            //LoggerInit.LOGGER.warn("Unsupport protocol type: " + type);
+            log.error("NettyProtocolDecoder protocol {} not support",protocol);
             return null;
         }
 

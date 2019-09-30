@@ -39,6 +39,7 @@ public class NettyServer {
             .channel(NioServerSocketChannel.class)
             .option(ChannelOption.SO_BACKLOG, 2048)
             .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+            .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
             .childOption(ChannelOption.TCP_NODELAY, true)
             .childOption(ChannelOption.SO_REUSEADDR, true)
             .childHandler(new ChannelInitializer<SocketChannel>(){

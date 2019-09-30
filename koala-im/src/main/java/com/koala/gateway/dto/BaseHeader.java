@@ -18,6 +18,7 @@ public abstract class BaseHeader {
      */
     private final long requestId;
 
+
     public BaseHeader(byte protocolType, long requestId) {
         this.protocolType = protocolType;
         this.requestId = requestId;
