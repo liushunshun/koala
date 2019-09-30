@@ -12,6 +12,7 @@
     <modules>
         <module>koala-im</module>
         <module>koala-web</module>
+        <module>koala-test</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>
