@@ -29,12 +29,14 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <version.koala-im>1.0-SNAPSHOT</version.koala-im>
+
         <version.netty>4.1.9.Final</version.netty>
         <version.guava>28.1-jre</version.guava>
         <version.fastjson>1.2.60</version.fastjson>
         <version.commons-lang3>3.8.1</version.commons-lang3>
         <version.junit>4.11</version.junit>
-        <version.koala-im>1.0-SNAPSHOT</version.koala-im>
+        <version.lombok>1.18.10</version.lombok>
     </properties>
 
 
@@ -75,6 +77,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${version.guava}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${version.lombok}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
