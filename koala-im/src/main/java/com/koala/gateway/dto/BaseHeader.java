@@ -1,5 +1,6 @@
 package com.koala.gateway.dto;
 
+import com.koala.gateway.encoder.ByteBufferWrapper;
 import lombok.Data;
 
 /**
@@ -21,4 +22,6 @@ public abstract class BaseHeader {
         this.protocolType = protocolType;
         this.requestId = requestId;
     }
+
+    public abstract void encode(ByteBufferWrapper byteBuffer) throws Exception;
 }

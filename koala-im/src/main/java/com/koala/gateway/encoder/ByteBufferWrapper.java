@@ -31,4 +31,6 @@ public interface ByteBufferWrapper {
 
     long readLong();
 
+    void ensureCapacity(int capacity);
+
 }

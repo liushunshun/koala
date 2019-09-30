@@ -82,4 +82,8 @@ public class NettyByteBufferWrapper implements ByteBufferWrapper {
         return buffer.readLong();
     }
 
+    @Override
+    public void ensureCapacity(int capacity) {
+        buffer.capacity(capacity);
+    }
 }

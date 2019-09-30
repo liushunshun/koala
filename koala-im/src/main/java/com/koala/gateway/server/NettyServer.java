@@ -1,5 +1,7 @@
 package com.koala.gateway.server;
 
+import com.koala.gateway.encoder.NettyProtocolDecoder;
+import com.koala.gateway.encoder.NettyProtocolEncoder;
 import com.koala.gateway.handler.NettyServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
@@ -43,19 +45,8 @@ public class NettyServer {
                 @Override
                 protected void initChannel(SocketChannel ch){
                     ch.pipeline()
-                        //.addLast("decoder", new ByteToMessageDecoder() {
-                        //    @Override
-                        //    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out)
-                        //        throws Exception {
-                        //
-                        //    }
-                        //})
-                        //.addLast("encoder", new MessageToByteEncoder() {
-                        //    @Override
-                        //    protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
-                        //
-                        //    }
-                        //})
+                        .addLast("decoder", new NettyProtocolDecoder())
+                        .addLast("encoder", new NettyProtocolEncoder())
                         .addLast("handler", nettyServerHandler);
                 }
             })

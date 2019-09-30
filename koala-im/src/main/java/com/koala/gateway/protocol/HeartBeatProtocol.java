@@ -11,13 +11,14 @@ import com.koala.gateway.encoder.ByteBufferWrapper;
 
 public class HeartBeatProtocol implements Protocol{
 
+    public static final byte HEADER_LENGTH = 1 * 6 + 2 * 4 + 4;
     public static final byte VERSION = (byte) 1;
     public static final byte REQUEST = (byte) 0;
     public static final byte RESPONSE = (byte) 1;
 
     @Override
     public Object decode(ByteBufferWrapper wrapper, int originPos) throws Exception {
-        if (wrapper.readableBytes() < getHeadLength() - 1) {
+        if (wrapper.readableBytes() < HEADER_LENGTH - 1) {
             wrapper.setReaderIndex(originPos);
             return null;
         }
@@ -47,8 +48,4 @@ public class HeartBeatProtocol implements Protocol{
         }
     }
 
-    @Override
-    public int getHeadLength() {
-        return 1 * 6 + 2 * 4 + 4;
-    }
 }

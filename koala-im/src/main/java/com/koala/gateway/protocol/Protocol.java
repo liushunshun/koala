@@ -9,8 +9,6 @@ import com.koala.gateway.encoder.ByteBufferWrapper;
 
 public interface Protocol {
 
-    int getHeadLength();
-
     Object decode(ByteBufferWrapper wrapper, int originPos) throws Exception;
 
 }
