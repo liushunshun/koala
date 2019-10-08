@@ -51,7 +51,7 @@ public class Main {
                     }
                 });
 
-        for(long i = 1;i<10000;i++) {
+        for(long i = 1;i<1000000;i++) {
             final long userId = i;
             ChannelFuture channelFuture = bootstrap.connect("39.100.71.220", 8888);
             channelFuture.addListener(new ChannelFutureListener() {
