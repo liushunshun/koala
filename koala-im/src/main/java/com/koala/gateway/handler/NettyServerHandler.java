@@ -18,11 +18,11 @@ import java.util.concurrent.Executor;
  * @author XiuYang
  * @date 2019/09/30
  */
-@Slf4j
+
 @ChannelHandler.Sharable
 public class NettyServerHandler extends SimpleChannelInboundHandler<BaseRequest> {
 
-    private static final ConcurrentMap<Channel, NettyConnection> channels = new ConcurrentHashMap<>();
+    public static final ConcurrentMap<Channel, NettyConnection> channels = new ConcurrentHashMap<>();
 
 
     @Override
@@ -46,7 +46,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<BaseRequest>
         connection.refreshLastReadTime(System.currentTimeMillis());
         BaseRequest request = message;
 
-        log.error("server connection null : "+channels.size());
+
         ServerHandler<BaseRequest> serverHandler = (ServerHandler<BaseRequest>) request.getServerHandler();
         //Executor executor = serverHandler.getExecutor(request);
         //if (executor == null) {

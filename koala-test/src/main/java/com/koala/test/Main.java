@@ -27,19 +27,17 @@ public class Main {
     public static void main(String[] args) throws Exception{
         Main main = new Main();
 
-        for(long i = 1;i<10000;i++){
-            main.start(i);
-        }
 
-//        main.start(1);
+
+        main.start();
 
 
     }
 
-    public void start(long userId){
+    public void start(){
         Bootstrap bootstrap = new Bootstrap();
         EventLoopGroup group = new NioEventLoopGroup(1);
-        ChannelFuture channelFuture = bootstrap.group(group)
+        bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY,true)
                 .handler(new ChannelInitializer<SocketChannel>() {
@@ -51,20 +49,25 @@ public class Main {
                                 .addLast(new NettyProtocolEncoder())
                                 .addLast(new ClientToHandler());
                     }
-                })
-                .connect("39.100.71.220",8888);
+                });
 
-        channelFuture.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                if(channelFuture.isSuccess()){
-                    channelKeeper.put(userId,channelFuture.channel());
-                    channelFuture.channel().writeAndFlush(new HeartBeatRequest(123L,100));
-                    log.warn("current connection userId={} connect success,size : {}",userId,channelKeeper.size());
-                }else{
-                    log.error("connect failed userId={}",userId);
+        for(long i = 1;i<10000;i++) {
+            final long userId = i;
+            ChannelFuture channelFuture = bootstrap.connect("39.100.71.220", 8888);
+            channelFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    if(channelFuture.isSuccess()){
+                        channelKeeper.put(userId,channelFuture.channel());
+                        channelFuture.channel().writeAndFlush(new HeartBeatRequest(userId,100));
+                        log.warn("current connection userId={} connect success,size : {}",userId,channelKeeper.size());
+                    }else{
+                        log.error("connect failed userId={}",userId);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     }
 }
