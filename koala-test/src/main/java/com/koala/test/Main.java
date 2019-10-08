@@ -38,7 +38,7 @@ public class Main {
 
     public void start(long userId){
         Bootstrap bootstrap = new Bootstrap();
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup group = new NioEventLoopGroup(1);
         ChannelFuture channelFuture = bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY,true)
@@ -52,7 +52,7 @@ public class Main {
                                 .addLast(new ClientToHandler());
                     }
                 })
-                .connect("127.0.0.1",8888);
+                .connect("39.100.71.220",8888);
 
         channelFuture.addListener(new ChannelFutureListener() {
             @Override
@@ -60,7 +60,7 @@ public class Main {
                 if(channelFuture.isSuccess()){
                     channelKeeper.put(userId,channelFuture.channel());
                     channelFuture.channel().writeAndFlush(new HeartBeatRequest(123L,100));
-                    log.warn("current connection size : {}",channelKeeper.size());
+                    log.warn("current connection userId={} connect success,size : {}",userId,channelKeeper.size());
                 }else{
                     log.error("connect failed userId={}",userId);
                 }
