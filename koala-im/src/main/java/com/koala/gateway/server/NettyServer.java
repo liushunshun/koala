@@ -30,7 +30,7 @@ public class NettyServer {
 
     NettyServerHandler nettyServerHandler = new NettyServerHandler();
 
-    public void start(int port){
+    public void start(int port,int portNum){
         if(!startFlag.compareAndSet(false,true)){
             return;
         }
@@ -53,18 +53,20 @@ public class NettyServer {
             })
             ;
 
-        bootstrap.bind(new InetSocketAddress(port)).addListener(future -> {
-            if (future.isSuccess()) {
-                //log.info("raven-gateway websocket server start success on port:{}",
-                //    nettyWebsocketPort);
-            } else {
-                //log.error("raven-gateway websocket server start failed!");
-                System.exit(0);
-            }
-        });
+        for(int i=0;i<portNum;i++){
+            bootstrap.bind(new InetSocketAddress(port+i)).addListener(future -> {
+                if (future.isSuccess()) {
+                    //log.info("raven-gateway websocket server start success on port:{}",
+                    //    nettyWebsocketPort);
+                } else {
+                    //log.error("raven-gateway websocket server start failed!");
+                    System.exit(0);
+                }
+            });
+        }
     }
 
     public static void main(String[] args) {
-        new NettyServer().start(8888);
+        new NettyServer().start(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
     }
 }

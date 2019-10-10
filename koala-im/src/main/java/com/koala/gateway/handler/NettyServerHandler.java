@@ -10,25 +10,40 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executor;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author XiuYang
  * @date 2019/09/30
  */
 
+@Slf4j
 @ChannelHandler.Sharable
 public class NettyServerHandler extends SimpleChannelInboundHandler<BaseRequest> {
 
     public static final ConcurrentMap<Channel, NettyConnection> channels = new ConcurrentHashMap<>();
 
+    private AtomicInteger connectionNum = new AtomicInteger();
+
+    public NettyServerHandler(){
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            System.out.println("connections: " + connectionNum.get());
+        }, 0, 2, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        log.warn("",cause);
+        super.exceptionCaught(ctx, cause);
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         channels.putIfAbsent(channel, new NettyConnection(channel));
+
+        connectionNum.incrementAndGet();
         super.channelActive(ctx);
     }
 
@@ -36,6 +51,8 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<BaseRequest>
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctx.channel().close();
         channels.remove(ctx.channel());
+
+        connectionNum.decrementAndGet();
         super.channelInactive(ctx);
     }
 
