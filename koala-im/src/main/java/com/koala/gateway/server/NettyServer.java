@@ -1,26 +1,26 @@
 package com.koala.gateway.server;
 
-import com.koala.gateway.encoder.NettyProtocolDecoder;
-import com.koala.gateway.encoder.NettyProtocolEncoder;
-import com.koala.gateway.handler.NettyServerHandler;
+import com.koala.gateway.initializer.WebSocketChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author XiuYang
  * @date 2019/09/30
  */
+@Slf4j
+@Component
 public class NettyServer {
 
     private final AtomicBoolean startFlag = new AtomicBoolean(false);
@@ -28,45 +28,45 @@ public class NettyServer {
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);
 
-    NettyServerHandler nettyServerHandler = new NettyServerHandler();
+    @Autowired
+    private WebSocketChannelInitializer webSocketChannelInitializer;
 
-    public void start(int port,int portNum){
+    public void start(int port) throws Exception{
         if(!startFlag.compareAndSet(false,true)){
             return;
         }
         ServerBootstrap bootstrap = new ServerBootstrap()
             .group(bossGroup, workerGroup)
+            //.handler(new LoggingHandler(LogLevel.DEBUG))
             .channel(NioServerSocketChannel.class)
             .option(ChannelOption.SO_BACKLOG, 2048)
             .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
             .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
             .childOption(ChannelOption.TCP_NODELAY, true)
             .childOption(ChannelOption.SO_REUSEADDR, true)
-            .childHandler(new ChannelInitializer<SocketChannel>(){
-                @Override
-                protected void initChannel(SocketChannel ch){
-                    ch.pipeline()
-                        .addLast("decoder", new NettyProtocolDecoder())
-                        .addLast("encoder", new NettyProtocolEncoder())
-                        .addLast("handler", nettyServerHandler);
-                }
-            })
-            ;
+            .childHandler(webSocketChannelInitializer);
 
-        for(int i=0;i<portNum;i++){
-            bootstrap.bind(new InetSocketAddress(port+i)).addListener(future -> {
-                if (future.isSuccess()) {
-                    //log.info("raven-gateway websocket server start success on port:{}",
-                    //    nettyWebsocketPort);
-                } else {
-                    //log.error("raven-gateway websocket server start failed!");
-                    System.exit(0);
-                }
-            });
+        ChannelFuture future = bootstrap.bind(new InetSocketAddress(port)).sync();
+        if (future.isSuccess()) {
+            log.warn("netty Server started: http://127.0.0.1:" + port + '/');
+        } else {
+            log.error("netty server start failed , system exit!");
+            System.exit(0);
         }
+        future.channel().closeFuture().sync();
     }
 
-    public static void main(String[] args) {
-        new NettyServer().start(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
+
+
+    /**
+     * 关闭
+     */
+    public void shutdown() {
+        if (bossGroup != null) {
+            bossGroup.shutdownGracefully();
+        }
+        if (workerGroup != null) {
+            workerGroup.shutdownGracefully();
+        }
     }
 }
