@@ -1,11 +1,13 @@
 package com.koala.gateway.handler;
 
-import com.koala.gateway.dto.KoalaMessageSendRequest;
+import com.alibaba.fastjson.JSON;
+import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,15 +19,19 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable
 public class WebsocketServerHandler extends SimpleChannelInboundHandler<KoalaRequest> {
 
+    @Autowired
+    private HandlerFactory handlerFactory;
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg) throws Exception {
-        String response = "server accept message : " + msg;
-        log.warn(response);
+        KoalaHandler koalaHandler = handlerFactory.getHandler(msg.getType());
 
-        if("message".equals(msg.getProtocolType())){
-            log.warn("send message : "+ msg.getRequestBody(KoalaMessageSendRequest.class));
-        }
-        ctx.channel().writeAndFlush(response);
+        KoalaResponse response = koalaHandler.process(msg);
+
+        response.setRequestId(msg.getRequestId());
+        response.setType(msg.getType());
+
+        ctx.channel().writeAndFlush(JSON.toJSONString(response));
     }
 
     @Override

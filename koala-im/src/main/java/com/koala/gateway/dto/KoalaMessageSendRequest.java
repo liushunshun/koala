@@ -1,7 +1,11 @@
 package com.koala.gateway.dto;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Lists;
 import org.springframework.context.annotation.Import;
+
+import java.util.List;
 
 /**
  * @author XiuYang
@@ -10,7 +14,9 @@ import org.springframework.context.annotation.Import;
 
 @Data
 @Import(value = KoalaMessageSendRequest.class)
-public class KoalaMessageSendRequest {
+public class KoalaMessageSendRequest extends KoalaRequest{
+
+    private String sessionId;
 
     private String msgType;
 
@@ -20,4 +26,14 @@ public class KoalaMessageSendRequest {
 
     private String clientMessageId;
 
+    @Override
+    public List<String> invalidParams() {
+
+        if(StringUtils.isBlank(msgType)){
+            return Lists.newArrayList("sessionId");
+        }else{
+            return null;
+        }
+
+    }
 }
