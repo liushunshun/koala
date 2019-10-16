@@ -1,5 +1,6 @@
 package com.koala.gateway.enums;
 
+import com.koala.gateway.dto.KoalaMessageAckRequest;
 import com.koala.gateway.dto.KoalaMessageSendRequest;
 
 import java.util.Objects;
@@ -11,7 +12,8 @@ import java.util.Objects;
 
 public enum EnumRequestType {
 
-    CHAT_MSG_SEND("CHAT_MSG_SEND","心跳", KoalaMessageSendRequest.class);
+    CHAT_MSG_SEND("CHAT_MSG_SEND","心跳", KoalaMessageSendRequest.class),
+    CHAT_MSG_ACK("CHAT_MSG_ACK","消息ACK",KoalaMessageAckRequest.class);
 
     EnumRequestType(String code, String description,Class dtoClazz) {
         this.code = code;

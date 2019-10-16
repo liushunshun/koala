@@ -1,6 +1,7 @@
 package com.koala.gateway.dto;
 
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.context.annotation.Import;
@@ -14,13 +15,11 @@ import java.util.List;
  */
 
 @Data
-public class KoalaMessageSendRequest extends KoalaRequest{
+public class KoalaMessageAckRequest extends KoalaRequest{
 
     private String sessionId;
 
-    private String msgType;
-
-    private String content;
+    private List<String> messageIds;
 
     private String clientMessageId;
 
@@ -28,11 +27,8 @@ public class KoalaMessageSendRequest extends KoalaRequest{
     public List<String> invalidParams() {
         List<String> list = new ArrayList<>();
 
-        if(StringUtils.isBlank(msgType)){
-            list.add("msgType");
-        }
-        if(StringUtils.isBlank(content)){
-            list.add("content");
+        if(CollectionUtils.isEmpty(messageIds)){
+            list.add("messageIds");
         }
         if(StringUtils.isBlank(sessionId)){
             list.add("sessionId");
