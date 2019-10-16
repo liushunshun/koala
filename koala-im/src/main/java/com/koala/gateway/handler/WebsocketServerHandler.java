@@ -1,7 +1,7 @@
 package com.koala.gateway.handler;
 
-import com.koala.gateway.dto.BaseRequest;
-import com.koala.gateway.dto.MessageSendParam;
+import com.koala.gateway.dto.KoalaMessageSendRequest;
+import com.koala.gateway.dto.KoalaRequest;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -15,12 +15,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class WebsocketServerHandler extends SimpleChannelInboundHandler<MessageSendParam> {
+public class WebsocketServerHandler extends SimpleChannelInboundHandler<KoalaRequest> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MessageSendParam msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg) throws Exception {
         String response = "server accept message : " + msg;
         log.warn(response);
+
+        if("message".equals(msg.getProtocolType())){
+            log.warn("send message : "+ msg.getRequestBody(KoalaMessageSendRequest.class));
+        }
         ctx.channel().writeAndFlush(response);
     }
 

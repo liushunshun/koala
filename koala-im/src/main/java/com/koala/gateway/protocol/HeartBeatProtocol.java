@@ -11,7 +11,7 @@ import com.koala.gateway.encoder.ByteBufferWrapper;
 
 public class HeartBeatProtocol implements Protocol{
 
-    public static final byte HEADER_LENGTH = 1 * 6 + 2 * 4 + 4;
+    public static final byte HEADER_LENGTH = 1 * 6 + 2 * 4;
     public static final byte VERSION = (byte) 1;
     public static final byte REQUEST = (byte) 0;
     public static final byte RESPONSE = (byte) 1;

@@ -4,12 +4,10 @@ import lombok.Data;
 
 /**
  * @author XiuYang
- * @date 2019/10/14
+ * @date 2019/10/15
  */
 @Data
-public class MessageSendParam{
-
+public class MessageDTO {
     private String msgType;
-
-    private String body;
+    private String content;
 }

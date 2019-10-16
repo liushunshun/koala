@@ -24,7 +24,6 @@ public class HeartBeatRequest extends BaseRequest {
     @Override
     public void encode(ByteBufferWrapper bytebufferWrapper) throws Exception {
         long id = this.getRequestId();
-        int timeout = this.getTimeout();
         bytebufferWrapper.ensureCapacity(HeartBeatProtocol.HEADER_LENGTH);
         bytebufferWrapper.writeByte(EnumProtocolType.HEART_BEAT.getCode());
         bytebufferWrapper.writeByte(HeartBeatProtocol.REQUEST);
@@ -33,7 +32,6 @@ public class HeartBeatRequest extends BaseRequest {
         bytebufferWrapper.writeByte((byte) 0);
         bytebufferWrapper.writeByte((byte) 0);
         bytebufferWrapper.writeLong(id);
-        bytebufferWrapper.writeInt(timeout);
     }
 
     @Override

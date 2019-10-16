@@ -2,10 +2,9 @@ package com.koala.gateway.initializer;
 
 import com.alibaba.fastjson.JSON;
 import com.koala.gateway.constants.GatewayConstants;
-import com.koala.gateway.dto.MessageSendParam;
+import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.handler.BadRequestHandler;
 import com.koala.gateway.handler.WebsocketServerHandler;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -15,8 +14,6 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.*;
-import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
-import io.netty.handler.proxy.HttpProxyHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +55,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
             protected void decode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List<Object> out) throws Exception {
                 String content = msg.text();
                 try{
-                    out.add(JSON.parseObject(content, MessageSendParam.class));
+                    out.add(JSON.parseObject(content, KoalaRequest.class));
                 }catch (Exception e){
                     ctx.channel().writeAndFlush("param invalid msg:"+content);
                     log.error("decode exception content="+content,e);

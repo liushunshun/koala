@@ -9,25 +9,21 @@ import com.koala.utils.UUIDGenerator;
  * @date 2019/09/30
  */
 
-public abstract class BaseRequest extends BaseHeader{
+public abstract class BaseRequest<T> extends BaseHeader{
 
-    private final int timeout;
+    private T data;
 
-    public BaseRequest(byte protocolType, long id, int timeout) {
+    public BaseRequest(byte protocolType, long id, T data) {
         super(protocolType, id);
-        this.timeout = timeout;
+        this.data = data;
     }
 
-    public BaseRequest(byte protocolType, int timeout) {
-        this(protocolType, UUIDGenerator.getNextOpaque(), timeout);
+    public BaseRequest(byte protocolType, T data) {
+        this(protocolType, UUIDGenerator.getNextOpaque(), data);
     }
 
-    public BaseRequest(byte protocolType) {
-        this(protocolType, GatewayConstants.DEFAULT_TIMEOUT);
-    }
-
-    public int getTimeout() {
-        return timeout;
+    public T getData() {
+        return data;
     }
 
     public abstract ServerHandler<? extends BaseRequest> getServerHandler();
