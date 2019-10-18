@@ -1,7 +1,5 @@
-package com.koala.gateway.connection;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.dto.BaseResponse;
-import com.koala.gateway.server.NettyServer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;

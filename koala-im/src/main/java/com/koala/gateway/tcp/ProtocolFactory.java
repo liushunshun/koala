@@ -1,8 +1,4 @@
-package com.koala.gateway.protocol;
-
-import com.koala.gateway.enums.EnumProtocolType;
-import com.koala.gateway.handler.HeartBeatServerHandler;
-import com.koala.gateway.handler.ServerHandler;
+package com.koala.gateway.tcp;
 
 import java.util.HashMap;
 import java.util.Map;

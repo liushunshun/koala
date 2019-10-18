@@ -3,6 +3,7 @@ package com.koala.gateway.handler;
 import com.koala.gateway.dto.KoalaMessageSendRequest;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;
+import com.koala.gateway.handler.core.KoalaHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("CHAT_MSG_SEND")
-public class ChatMessageSendHandler implements KoalaHandler{
+public class ChatMessageSendHandler implements KoalaHandler {
 
     @Override
     public KoalaResponse process(KoalaRequest koalaRequest) {

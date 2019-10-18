@@ -1,9 +1,8 @@
 package com.koala.test;
 
-import com.koala.gateway.dto.HeartBeatRequest;
-import com.koala.gateway.encoder.NettyProtocolDecoder;
-import com.koala.gateway.encoder.NettyProtocolEncoder;
-import io.netty.bootstrap.AbstractBootstrap;
+import com.koala.gateway.tcp.HeartBeatRequest;
+import com.koala.gateway.tcp.NettyProtocolDecoder;
+import com.koala.gateway.tcp.NettyProtocolEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

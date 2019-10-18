@@ -1,4 +1,4 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.handler.core;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;

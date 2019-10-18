@@ -1,6 +1,6 @@
-package com.koala.gateway.dto;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.encoder.ByteBufferWrapper;
+import com.koala.gateway.tcp.ByteBufferWrapper;
 import lombok.Data;
 
 /**

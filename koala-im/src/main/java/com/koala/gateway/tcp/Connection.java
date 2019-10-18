@@ -1,6 +1,6 @@
-package com.koala.gateway.connection;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.dto.BaseResponse;
+import com.koala.gateway.tcp.BaseResponse;
 
 import java.net.SocketAddress;
 

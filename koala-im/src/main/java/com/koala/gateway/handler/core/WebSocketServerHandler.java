@@ -1,6 +1,8 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.handler.core;
 
 import com.alibaba.fastjson.JSON;
+import com.koala.gateway.connection.ConnectionManager;
+import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;
 import io.netty.channel.ChannelHandler;
@@ -17,10 +19,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class WebsocketServerHandler extends SimpleChannelInboundHandler<KoalaRequest> {
+public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaRequest> {
 
     @Autowired
     private HandlerFactory handlerFactory;
+
+    @Autowired
+    private ConnectionManager connectionManager;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg) throws Exception {
@@ -37,13 +42,21 @@ public class WebsocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        log.error("客户端与服务端会话连接成功");
+
+        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
+        connectionManager.connect(connectionParam,ctx.channel());
+
+        log.error("客户端与服务端会话连接成功 connectionParam={}",connectionParam);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        log.error("客户端与服务端会话连接断开");
+
+        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
+        connectionManager.close(connectionParam);
+
+        log.error("客户端与服务端会话连接断开 connectionParam={}",connectionParam);
     }
 
     @Override

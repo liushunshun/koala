@@ -1,4 +1,4 @@
-package com.koala.gateway.encoder;
+package com.koala.gateway.tcp;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

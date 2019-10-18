@@ -1,10 +1,5 @@
-package com.koala.gateway.dto;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.encoder.ByteBufferWrapper;
-import com.koala.gateway.enums.EnumProtocolType;
-import com.koala.gateway.handler.ServerHandler;
-import com.koala.gateway.protocol.HeartBeatProtocol;
-import com.koala.gateway.protocol.ProtocolFactory;
 import lombok.Data;
 
 /**

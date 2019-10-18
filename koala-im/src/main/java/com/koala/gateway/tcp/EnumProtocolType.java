@@ -1,4 +1,4 @@
-package com.koala.gateway.enums;
+package com.koala.gateway.tcp;
 
 /**
  * @author XiuYang

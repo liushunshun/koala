@@ -1,7 +1,5 @@
-package com.koala.gateway.dto;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.constants.GatewayConstants;
-import com.koala.gateway.handler.ServerHandler;
 import com.koala.utils.UUIDGenerator;
 
 /**

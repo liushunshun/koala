@@ -1,9 +1,9 @@
 package com.koala.gateway.handler;
 
 import com.koala.gateway.dto.KoalaMessageAckRequest;
-import com.koala.gateway.dto.KoalaMessageSendRequest;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
+import com.koala.gateway.handler.core.KoalaHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("CHAT_MSG_ACK")
-public class ChatMessageAckHandler implements KoalaHandler{
+public class ChatMessageAckHandler implements KoalaHandler {
 
     /**
      * {

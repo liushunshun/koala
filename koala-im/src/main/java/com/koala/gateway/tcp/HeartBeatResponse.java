@@ -1,8 +1,4 @@
-package com.koala.gateway.dto;
-
-import com.koala.gateway.encoder.ByteBufferWrapper;
-import com.koala.gateway.enums.EnumProtocolType;
-import com.koala.gateway.protocol.HeartBeatProtocol;
+package com.koala.gateway.tcp;
 
 /**
  * @author XiuYang

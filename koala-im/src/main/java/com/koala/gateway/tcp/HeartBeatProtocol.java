@@ -1,8 +1,4 @@
-package com.koala.gateway.protocol;
-
-import com.koala.gateway.dto.HeartBeatRequest;
-import com.koala.gateway.dto.HeartBeatResponse;
-import com.koala.gateway.encoder.ByteBufferWrapper;
+package com.koala.gateway.tcp;
 
 /**
  * @author XiuYang

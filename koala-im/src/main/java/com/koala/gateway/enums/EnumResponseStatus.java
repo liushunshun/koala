@@ -8,7 +8,8 @@ package com.koala.gateway.enums;
 public enum  EnumResponseStatus {
     OK(0,"成功"),
     INVALID_PARAM(1,"非法参数"),
-    SYSTEM_EXCEPTION(2,"非法参数");
+    SYSTEM_EXCEPTION(2,"系统异常"),
+    AUTH_FAILED(3,"鉴权失败");
 
     EnumResponseStatus(int code, String description) {
         this.code = code;

@@ -1,4 +1,4 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.handler.core;
 
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;

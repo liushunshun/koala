@@ -1,8 +1,5 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.connection.Connection;
-import com.koala.gateway.dto.HeartBeatRequest;
-import com.koala.gateway.dto.HeartBeatResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Executor;

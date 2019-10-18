@@ -1,8 +1,5 @@
-package com.koala.gateway.encoder;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.enums.EnumProtocolType;
-import com.koala.gateway.protocol.Protocol;
-import com.koala.gateway.protocol.ProtocolFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

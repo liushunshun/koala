@@ -1,7 +1,7 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.tcp;
 
-import com.koala.gateway.connection.Connection;
-import com.koala.gateway.dto.BaseRequest;
+import com.koala.gateway.tcp.Connection;
+import com.koala.gateway.tcp.BaseRequest;
 
 import java.util.concurrent.Executor;
 

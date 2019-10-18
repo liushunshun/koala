@@ -1,4 +1,4 @@
-package com.koala.gateway.encoder;
+package com.koala.gateway.tcp;
 
 /**
  * @author XiuYang

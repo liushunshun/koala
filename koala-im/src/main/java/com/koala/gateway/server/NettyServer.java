@@ -37,7 +37,7 @@ public class NettyServer {
         }
         ServerBootstrap bootstrap = new ServerBootstrap()
             .group(bossGroup, workerGroup)
-            //.handler(new LoggingHandler(LogLevel.DEBUG))
+            .handler(new LoggingHandler(LogLevel.DEBUG))
             .channel(NioServerSocketChannel.class)
             .option(ChannelOption.SO_BACKLOG, 2048)
             .option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)

@@ -1,4 +1,4 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.handler.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
