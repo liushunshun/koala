@@ -1,6 +1,7 @@
 package com.koala.gateway.dto;
 
 import com.koala.gateway.connection.ConnectionParam;
+import io.netty.channel.Channel;
 import lombok.Data;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public abstract class KoalaRequest {
      * 连接参数
      */
     private ConnectionParam connectionParam;
+
+
+    private Channel channel;
 
     public abstract List<String> invalidParams();
 

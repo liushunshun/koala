@@ -59,6 +59,7 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
             ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
 
             koalaRequest.setConnectionParam(connectionParam);
+            koalaRequest.setChannel(ctx.channel());
 
             out.add(koalaRequest);
         }catch (IllegalArgumentException | JSONException e){
