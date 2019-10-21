@@ -30,7 +30,7 @@ public class HeartBeatHandler implements KoalaHandler {
 
         connectionManager.heartBeat(koalaRequest.getConnectionParam());
 
-        return new KoalaResponse(koalaRequest.getRequestId(),koalaRequest.getType());
+        return new KoalaResponse();
     }
 
 }

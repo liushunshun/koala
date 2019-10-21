@@ -29,4 +29,5 @@ public abstract class KoalaRequest {
 
     public abstract List<String> invalidParams();
 
+
 }
