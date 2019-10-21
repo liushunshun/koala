@@ -1,6 +1,6 @@
 package com.koala.gateway.handler;
 
-import com.koala.chat.message.service.MessageSendService;
+import com.koala.core.message.service.MessageSendService;
 import com.koala.gateway.dto.KoalaMessageSendRequest;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;

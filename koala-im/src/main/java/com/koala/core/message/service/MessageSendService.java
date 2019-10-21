@@ -1,8 +1,8 @@
-package com.koala.chat.message.service;
+package com.koala.core.message.service;
 
-import com.koala.chat.common.dto.Result;
-import com.koala.chat.message.dto.MessageSendParam;
-import com.koala.chat.message.dto.MessageSendResponse;
+import com.koala.core.common.dto.Result;
+import com.koala.core.message.dto.MessageSendParam;
+import com.koala.core.message.dto.MessageSendResponse;
 
 /**
  * @author XiuYang

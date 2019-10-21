@@ -1,4 +1,4 @@
-package com.koala.chat.message.dao;
+package com.koala.core.message.dao;
 
 /**
  * @author XiuYang

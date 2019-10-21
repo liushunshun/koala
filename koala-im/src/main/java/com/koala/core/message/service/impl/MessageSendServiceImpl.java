@@ -1,9 +1,9 @@
-package com.koala.chat.message.service.impl;
+package com.koala.core.message.service.impl;
 
-import com.koala.chat.common.dto.Result;
-import com.koala.chat.message.dto.MessageSendParam;
-import com.koala.chat.message.dto.MessageSendResponse;
-import com.koala.chat.message.service.MessageSendService;
+import com.koala.core.common.dto.Result;
+import com.koala.core.message.dto.MessageSendParam;
+import com.koala.core.message.dto.MessageSendResponse;
+import com.koala.core.message.service.MessageSendService;
 import org.springframework.stereotype.Service;
 
 /**

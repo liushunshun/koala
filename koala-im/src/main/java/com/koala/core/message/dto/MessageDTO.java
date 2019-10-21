@@ -1,4 +1,4 @@
-package com.koala.chat.message.dto;
+package com.koala.core.message.dto;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.koala.chat.session.service;
+package com.koala.core.session.service;
 
 /**
  * @author XiuYang

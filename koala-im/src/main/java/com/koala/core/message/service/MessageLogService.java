@@ -1,4 +1,4 @@
-package com.koala.chat.message.service;
+package com.koala.core.message.service;
 
 /**
  * @author XiuYang

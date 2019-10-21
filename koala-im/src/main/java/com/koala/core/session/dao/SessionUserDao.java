@@ -1,4 +1,4 @@
-package com.koala.chat.session.dao;
+package com.koala.core.session.dao;
 
 /**
  * @author XiuYang
