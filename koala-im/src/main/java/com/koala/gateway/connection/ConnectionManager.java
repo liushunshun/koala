@@ -1,8 +1,11 @@
 package com.koala.gateway.connection;
 
 import io.netty.channel.Channel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,13 +16,36 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ConnectionManager {
 
-    public static final Map<String,Channel> channels = new ConcurrentHashMap<>();
+    @Autowired
+    private ConnectionChecker connectionChecker;
 
+    private static final Map<String,Channel> channels = new ConcurrentHashMap<>();
+
+    @PostConstruct
+    private void startChecker(){
+        connectionChecker.check();
+    }
+
+
+    public Map<String,Channel> getAllChannels(){
+        return channels;
+    }
+
+    public void heartBeat(ConnectionParam connectionParam){
+        Channel channel = channels.get(connectionParam.uniqueKey());
+        if(channel != null && channel.isActive()){
+            channel.attr(ConnectionParam.HEART_BEAT_TIME).set(LocalDateTime.now());
+        }
+    }
     public void connect(ConnectionParam connectionParam, Channel channel){
         channels.put(connectionParam.uniqueKey(),channel);
     }
 
     public void close(ConnectionParam connectionParam){
-        channels.remove(connectionParam.uniqueKey());
+        close(connectionParam.uniqueKey());
+    }
+
+    public void close(String uniqueKey){
+        channels.remove(uniqueKey);
     }
 }

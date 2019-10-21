@@ -12,7 +12,8 @@ import java.util.Objects;
 
 public enum EnumRequestType {
 
-    CHAT_MSG_SEND("CHAT_MSG_SEND","心跳", KoalaMessageSendRequest.class),
+    HEART_BEAT("HEART_BEAT","心跳", KoalaMessageSendRequest.class),
+    CHAT_MSG_SEND("CHAT_MSG_SEND","发送聊天消息", KoalaMessageSendRequest.class),
     CHAT_MSG_ACK("CHAT_MSG_ACK","消息ACK",KoalaMessageAckRequest.class);
 
     EnumRequestType(String code, String description,Class dtoClazz) {

@@ -1,5 +1,6 @@
 package com.koala.gateway.dto;
 
+import com.koala.gateway.connection.ConnectionParam;
 import lombok.Data;
 
 import java.util.List;
@@ -21,7 +22,10 @@ public abstract class KoalaRequest {
      */
     private String type;
 
-
+    /**
+     * 连接参数
+     */
+    private ConnectionParam connectionParam;
 
     public abstract List<String> invalidParams();
 

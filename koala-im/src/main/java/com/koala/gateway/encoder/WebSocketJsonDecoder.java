@@ -3,6 +3,7 @@ package com.koala.gateway.encoder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.EnumRequestType;
@@ -54,6 +55,11 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
             if(CollectionUtils.isNotEmpty(illegalArguments)){
                 throw new IllegalArgumentException("invalid "+ illegalArguments.toString());
             }
+
+            ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
+
+            koalaRequest.setConnectionParam(connectionParam);
+
             out.add(koalaRequest);
         }catch (IllegalArgumentException | JSONException e){
             log.warn("decode param invalid : {} ,errorMessage={}",content,e.getMessage());
