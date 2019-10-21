@@ -1,6 +1,7 @@
 package com.koala.core.message.service.impl;
 
 import com.koala.core.common.dto.Result;
+import com.koala.core.message.dto.MessagePushParam;
 import com.koala.core.message.dto.MessageSendParam;
 import com.koala.core.message.dto.MessageSendResponse;
 import com.koala.core.message.service.MessageSendService;
@@ -27,5 +28,15 @@ public class MessageSendServiceImpl implements MessageSendService{
         //会话状态校验
 
         return new Result<>();
+    }
+
+    @Override
+    public Result<MessageSendResponse> sendSystemMessage(MessageSendParam param) {
+        return null;
+    }
+
+    @Override
+    public Result<MessageSendResponse> push(MessagePushParam param) {
+        return null;
     }
 }
