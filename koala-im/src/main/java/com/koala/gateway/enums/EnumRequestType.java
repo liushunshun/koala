@@ -2,6 +2,7 @@ package com.koala.gateway.enums;
 
 import com.koala.gateway.dto.KoalaMessageAckRequest;
 import com.koala.gateway.dto.KoalaMessageSendRequest;
+import com.koala.gateway.dto.KoalaRequest;
 
 import java.util.Objects;
 
@@ -12,7 +13,8 @@ import java.util.Objects;
 
 public enum EnumRequestType {
 
-    HEART_BEAT("HEART_BEAT","心跳", KoalaMessageSendRequest.class),
+    CONNECTION("CONNECTION","连接", KoalaRequest.class),
+    HEART_BEAT("HEART_BEAT","心跳", KoalaRequest.class),
     CHAT_MSG_SEND("CHAT_MSG_SEND","发送聊天消息", KoalaMessageSendRequest.class),
     CHAT_MSG_ACK("CHAT_MSG_ACK","消息ACK",KoalaMessageAckRequest.class);
 

@@ -1,99 +1,68 @@
 package com.koala.gateway.handler.core;
 
-import com.alibaba.fastjson.JSON;
 import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.dto.KoalaResponse;
-import com.koala.gateway.enums.EnumResponseStatus;
-import com.koala.utils.HttpParamParser;
-import io.netty.channel.ChannelFutureListener;
+import com.koala.gateway.listener.connection.ConnectionListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- *
- * 连接及鉴权
- *
  * @author XiuYang
- * @date 2019/10/14
+ * @date 2019/10/21
  */
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class ConnectionHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+public class ConnectionHandler  extends SimpleChannelInboundHandler<Object> {
+
+    @Autowired
+    private List<ConnectionListener> connectionListeners;
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
-        //解析参数
-        ConnectionParam connectionParam = parseParam(httpRequest);
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
 
-        log.warn("HTTP_REQUEST url={},connectionParam={}",httpRequest.uri(),connectionParam);
+        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
 
-        //参数校验
-        List<String> invalidParams = checkParam(connectionParam);
-
-        if(CollectionUtils.isNotEmpty(invalidParams)){
-            log.warn("ConnectionHandler checkParam failed uri={} ,connectionParam={},invalidParams={}",httpRequest.uri(),connectionParam,invalidParams);
-            ctx.channel().writeAndFlush(KoalaResponse.error(0L,"CONNECTION", EnumResponseStatus.INVALID_PARAM, JSON.toJSONString(invalidParams))).addListener(ChannelFutureListener.CLOSE);
-            return;
+        if(CollectionUtils.isNotEmpty(connectionListeners)){
+            connectionListeners.forEach(listener -> {
+                try{
+                    listener.connect(connectionParam,ctx.channel());
+                }catch (Exception e){
+                    log.error("ConnectionHandler channelActive call listener exception listener = {} ,connectionParam ={}", listener,connectionParam,e);
+                }
+            });
         }
-        //鉴权
-        boolean authResult = auth(connectionParam);
-        if(authResult){
-            log.warn("ConnectionHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
-            ctx.channel().writeAndFlush(KoalaResponse.error(0L,"CONNECTION", EnumResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
-            return;
-        }
-        ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).set(connectionParam);
+
+        log.error("客户端与服务端会话连接成功 connectionParam={}",connectionParam);
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("base response handler: exception caught", cause);
-        ctx.channel().writeAndFlush(new TextWebSocketFrame("error")).addListener(ChannelFutureListener.CLOSE);
-        super.exceptionCaught(ctx, cause);
-    }
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
 
-    private List<String> checkParam(ConnectionParam param){
-        if(param == null || StringUtils.isBlank(param.getUserId())){
-            return Lists.newArrayList("userId");
+        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
+        if(CollectionUtils.isNotEmpty(connectionListeners)){
+            connectionListeners.forEach(listener -> {
+                try{
+                    listener.close(connectionParam);
+                }catch (Exception e){
+                    log.error("ConnectionHandler channelInactive call listener exception listener = {} ,connectionParam ={}", listener,connectionParam,e);
+                }
+            });
         }
-        return null;
+
+        log.error("客户端与服务端会话连接断开 connectionParam={}",connectionParam);
     }
 
-    private ConnectionParam parseParam(FullHttpRequest request){
-        ConnectionParam connectionParam = new ConnectionParam();
-        String uri = request.uri();
-        try{
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-            HttpParamParser httpParamParser = new HttpParamParser(request);
-
-            String userId = httpParamParser.getParam("userId");
-
-            connectionParam.setUserId(userId);
-
-        }catch (Exception e){
-            log.error("ConnectionHandler parseParam exception uri={},connectionParam={}",uri,connectionParam);
-        }
-        return connectionParam;
     }
-
-    private boolean auth(ConnectionParam param){
-
-        if(param == null || StringUtils.isBlank(param.getUserId())){
-            return false;
-        }
-        return true;
-    }
-
-
 }

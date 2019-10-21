@@ -5,6 +5,9 @@ import com.koala.gateway.connection.ConnectionManager;
 import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;
+import com.koala.gateway.enums.EnumRequestType;
+import com.koala.gateway.enums.EnumResponseStatus;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -24,11 +27,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
     @Autowired
     private HandlerFactory handlerFactory;
 
-    @Autowired
-    private ConnectionManager connectionManager;
-
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg){
         KoalaHandler koalaHandler = handlerFactory.getHandler(msg.getType());
 
         KoalaResponse response = koalaHandler.process(msg);
@@ -40,28 +40,10 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
-
-        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
-        connectionManager.connect(connectionParam,ctx.channel());
-
-        log.error("客户端与服务端会话连接成功 connectionParam={}",connectionParam);
-    }
-
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
-
-        ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
-        connectionManager.close(connectionParam);
-
-        log.error("客户端与服务端会话连接断开 connectionParam={}",connectionParam);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("服务端监听到客户端异常:",cause);
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause){
+        log.warn("WebSocketServerHandler exception",cause);
+        ctx.channel().writeAndFlush(KoalaResponse.error(0L, EnumRequestType.CONNECTION.getCode(), EnumResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
         ctx.close();
+        return;
     }
 }
