@@ -18,6 +18,11 @@ public class TestController {
         return "Hello "+name;
     }
 
+    @GetMapping("/index")
+    public String index(String name){
+        return "index";
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(TestController.class, args);
     }
