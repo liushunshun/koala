@@ -17,6 +17,12 @@ public class ConnectionParam {
 
     private String userId;
 
+    public ConnectionParam(){
+    }
+    public ConnectionParam(String userId){
+        this.userId = userId;
+    }
+
     public String uniqueKey(){
         return userId;
     }

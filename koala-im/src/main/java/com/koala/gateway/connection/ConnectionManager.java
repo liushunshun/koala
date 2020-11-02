@@ -38,10 +38,21 @@ public class ConnectionManager {
         }
     }
     public void connect(ConnectionParam connectionParam, Channel channel){
+
+        if(connectionParam == null){
+            return;
+        }
         channels.put(connectionParam.uniqueKey(),channel);
     }
 
+    public Channel getConnection(ConnectionParam connectionParam){
+        return channels.get(connectionParam.uniqueKey());
+    }
+
     public void close(ConnectionParam connectionParam){
+        if(connectionParam == null){
+            return;
+        }
         close(connectionParam.uniqueKey());
     }
 

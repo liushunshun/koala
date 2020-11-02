@@ -1,15 +1,12 @@
 package com.koala.gateway.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaResponse;
-import com.koala.gateway.enums.EnumRequestType;
-import com.koala.gateway.enums.EnumResponseStatus;
+import com.koala.gateway.enums.RequestType;
 import com.koala.utils.HttpParamParser;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,7 +26,7 @@ import java.util.List;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class AuthAndParamParseHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
@@ -42,24 +39,26 @@ public class AuthAndParamParseHandler extends SimpleChannelInboundHandler<FullHt
         List<String> invalidParams = checkParam(connectionParam);
 
         if(CollectionUtils.isNotEmpty(invalidParams)){
-            log.warn("ConnectionHandler checkParam failed uri={} ,connectionParam={},invalidParams={}",httpRequest.uri(),connectionParam,invalidParams);
-            ctx.channel().writeAndFlush(KoalaResponse.error(0L, EnumRequestType.CONNECTION.getCode(), EnumResponseStatus.INVALID_PARAM, JSON.toJSONString(invalidParams))).addListener(ChannelFutureListener.CLOSE);
+            log.warn("AuthAndParseParamHandler checkParam failed uri={} ,connectionParam={},invalidParams={}",httpRequest.uri(),connectionParam,invalidParams);
+            ctx.channel().writeAndFlush(JSON.toJSONString(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.INVALID_PARAM, JSON.toJSONString(invalidParams)))).addListener(ChannelFutureListener.CLOSE);
             return;
         }
         //鉴权
         boolean authResult = auth(connectionParam);
-        if(authResult){
-            log.warn("ConnectionHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
-            ctx.channel().writeAndFlush(KoalaResponse.error(0L,EnumRequestType.CONNECTION.getCode(), EnumResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
+        if(!authResult){
+            log.warn("AuthAndParseParamHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
+            ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
             return;
         }
         ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).set(connectionParam);
+
+        ctx.fireChannelRead(httpRequest.retain());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("base response handler: exception caught", cause);
-        ctx.channel().writeAndFlush(KoalaResponse.error(0L,EnumRequestType.CONNECTION.getCode(), EnumResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
+        ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
         super.exceptionCaught(ctx, cause);
     }
 
@@ -82,7 +81,7 @@ public class AuthAndParamParseHandler extends SimpleChannelInboundHandler<FullHt
             connectionParam.setUserId(userId);
 
         }catch (Exception e){
-            log.error("ConnectionHandler parseParam exception uri={},connectionParam={}",uri,connectionParam);
+            log.error("AuthAndParseParamHandler parseParam exception uri={},connectionParam={}",uri,connectionParam);
         }
         return connectionParam;
     }
@@ -94,6 +93,4 @@ public class AuthAndParamParseHandler extends SimpleChannelInboundHandler<FullHt
         }
         return true;
     }
-
-
 }

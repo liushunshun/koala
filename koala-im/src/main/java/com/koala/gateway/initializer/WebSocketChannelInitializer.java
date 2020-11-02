@@ -3,7 +3,9 @@ package com.koala.gateway.initializer;
 import com.koala.gateway.constants.GatewayConstants;
 import com.koala.gateway.encoder.WebSocketJsonDecoder;
 import com.koala.gateway.encoder.WebSocketJsonEncoder;
+import com.koala.gateway.handler.AuthAndParseParamHandler;
 import com.koala.gateway.handler.BadRequestHandler;
+import com.koala.gateway.handler.ConnectionHandler;
 import com.koala.gateway.handler.WebSocketServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -30,6 +32,12 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
     @Autowired
     private BadRequestHandler badRequestHandler;
 
+    @Autowired
+    private AuthAndParseParamHandler authAndParamParseHandler;
+
+    @Autowired
+    private ConnectionHandler connectionHandler;
+
     private static final String WS_URI = "/ws";
 
     /**
@@ -46,7 +54,9 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(GatewayConstants.MAX_AGGREGATED_CONTENT_LENGTH));
         pipeline.addLast(new ChunkedWriteHandler());
-        pipeline.addLast(new WebSocketServerProtocolHandler(WS_URI, null, true, GatewayConstants.MAX_FRAME_LENGTH));
+        pipeline.addLast(authAndParamParseHandler);
+        pipeline.addLast(new WebSocketServerProtocolHandler(WS_URI, null, true, GatewayConstants.MAX_FRAME_LENGTH,false,true));
+        pipeline.addLast(connectionHandler);
         pipeline.addLast(new WebSocketJsonDecoder());
         pipeline.addLast(new WebSocketJsonEncoder());
         pipeline.addLast(websocketServerHandler);

@@ -1,5 +1,6 @@
 package com.koala.gateway.listener.message;
 
+import com.koala.api.BizException;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
 
@@ -10,5 +11,5 @@ import com.koala.gateway.dto.KoalaResponse;
 
 public interface MessageListener {
 
-    KoalaResponse receive(KoalaRequest koalaRequest);
+    KoalaResponse receive(KoalaRequest koalaRequest)throws BizException;
 }

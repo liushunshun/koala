@@ -1,9 +1,12 @@
 package com.koala.gateway.listener.message;
 
-import com.koala.gateway.dto.KoalaMessageAckRequest;
+import com.koala.gateway.dto.KoalaAckRequest;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
+import com.koala.route.ack.MessageAckManager;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,35 +19,21 @@ import org.springframework.stereotype.Component;
 @Component("CHAT_MSG_ACK")
 public class ChatMessageAckListener implements MessageListener {
 
-    /**
-     * {
-         "requestId": 123,
-         "type": "CHAT_MSG_SEND",
-         "msgType": "text",
-         "content": "hello",
-         "senderId": "2123",
-         "sessionId": "123123",
-         "clientMessageId": "SDFSDFSDFSFSDFsdf"
-        }
+    @Autowired
+    private MessageAckManager messageAckManager;
 
-     {
-         "requestId": 123,
-         "type": "CHAT_MSG_ACK",
-         "messageIds":[
-         "123123",
-         "223sdlfsd"
-         ],
-         "sessionId": "123123",
-         "clientMessageId": "SDFSDFSDFSFSDFsdf"
-     }
+    /**
      * @param koalaRequest
      * @return
      */
     @Override
     public KoalaResponse receive(KoalaRequest koalaRequest) {
 
-        KoalaMessageAckRequest messageAckRequest = (KoalaMessageAckRequest)koalaRequest;
+        KoalaAckRequest messageAckRequest = (KoalaAckRequest)koalaRequest;
 
+        if(CollectionUtils.isNotEmpty(messageAckRequest.getMessageIds())){
+             MessageAckManager.unAckSet.removeAll(messageAckRequest.getMessageIds());
+        }
         log.info("ChatMessageAckHandler ack message success messageAckRequest={}",messageAckRequest);
 
         return new KoalaResponse();

@@ -48,7 +48,7 @@ public class NettyServer {
 
         ChannelFuture future = bootstrap.bind(new InetSocketAddress(port)).sync();
         if (future.isSuccess()) {
-            log.warn("netty Server started: http://127.0.0.1:" + port + '/');
+            log.warn("netty Server started: ws://127.0.0.1:" + port + "/ws");
         } else {
             log.error("netty server start failed , system exit!");
             System.exit(0);

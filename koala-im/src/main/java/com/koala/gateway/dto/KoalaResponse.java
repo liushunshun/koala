@@ -1,6 +1,7 @@
 package com.koala.gateway.dto;
 
-import com.koala.gateway.enums.EnumResponseStatus;
+import com.koala.api.dto.Result;
+import com.koala.api.enums.ResponseStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,51 +10,70 @@ import lombok.Data;
  * @date 2019/10/16
  */
 @Data
-@Builder
-public class KoalaResponse<T> {
+public class KoalaResponse extends Result{
 
     /**
      * 请求ID
      */
-    private Long requestId;
+    private String requestId;
 
     /**
      * 协议类型，心跳、发送聊天消息、数据请求、消息推送
      */
     private String type;
 
-    private boolean ok = true;
-
-    private Integer errorCode;
-
-    private String errorMessage;
-
-    private T data;
-
     public KoalaResponse() {
     }
 
-    public KoalaResponse(Long requestId, String type) {
+    public KoalaResponse(String requestId,String type) {
         this.requestId = requestId;
         this.type = type;
     }
 
-    public KoalaResponse(Long requestId, String type, boolean ok, Integer errorCode, String errorMessage, T data) {
-        this.requestId = requestId;
-        this.type = type;
-        this.ok = ok;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-        this.data = data;
+    public KoalaResponse(ResponseStatus status) {
+        if(ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())){
+            setOk(false);
+        }
+        setErrorCode(status.getCode());
+        setErrorMessage(status.getDescription());
+    }
+    public KoalaResponse(Integer errorCode,String errorMsg) {
+        if(ResponseStatus.OK != ResponseStatus.getEnum(errorCode)){
+            setOk(false);
+        }
+        setErrorCode(errorCode);
+        setErrorMessage(errorMsg);
     }
 
-    public static KoalaResponse error(Long requestId, String type, EnumResponseStatus responseStatus){
-        return KoalaResponse.builder().ok(false).requestId(requestId).type(type)
-            .errorCode(responseStatus.getCode()).errorMessage(responseStatus.getDescription()).build();
+    public KoalaResponse(Result result) {
+        setOk(result.isOk());
+        setErrorCode(result.getErrorCode());
+        setErrorMessage(result.getErrorMessage());
+        setData(result.getData());
     }
 
-    public static KoalaResponse error(Long requestId, String type, EnumResponseStatus responseStatus,String errorMessage){
-        return KoalaResponse.builder().ok(false).requestId(requestId).type(type)
-            .errorCode(responseStatus.getCode()).errorMessage(responseStatus.getDescription() + " " +errorMessage).build();
+    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus){
+
+        KoalaResponse response =  new KoalaResponse(requestId,type);
+        response.response(responseStatus);
+
+        return response;
     }
+
+    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus, String errorMessage){
+
+        KoalaResponse response =  new KoalaResponse(requestId,type);
+        response.response(responseStatus,errorMessage);
+
+        return response;
+    }
+
+    public static KoalaResponse response(String requestId, String type, Integer errorCode, String errorMessage){
+
+        KoalaResponse response =  new KoalaResponse(requestId,type);
+        response.response(errorCode,errorMessage);
+
+        return response;
+    }
+
 }

@@ -16,7 +16,7 @@ public abstract class KoalaRequest {
     /**
      * 请求ID
      */
-    private Long requestId;
+    private String requestId;
 
     /**
      * 协议类型，心跳、发送聊天消息、数据请求、消息推送

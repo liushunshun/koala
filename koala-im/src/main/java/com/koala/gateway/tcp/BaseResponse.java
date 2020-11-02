@@ -1,6 +1,6 @@
 package com.koala.gateway.tcp;
 
-import com.koala.gateway.enums.EnumResponseStatus;
+import com.koala.api.enums.ResponseStatus;
 
 /**
  * @author XiuYang
@@ -9,22 +9,22 @@ import com.koala.gateway.enums.EnumResponseStatus;
 
 public abstract class BaseResponse extends BaseHeader{
 
-    private EnumResponseStatus status = EnumResponseStatus.OK;
+    private ResponseStatus status = ResponseStatus.OK;
 
     public BaseResponse(byte protocolType, long requestId) {
         super(protocolType, requestId);
     }
 
-    public EnumResponseStatus getStatus() {
+    public ResponseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(EnumResponseStatus status) {
+    public void setStatus(ResponseStatus status) {
         this.status = status;
     }
 
     public void setStatus(int status) {
-        this.status = EnumResponseStatus.getEnum(status);
+        this.status = ResponseStatus.getEnum(status);
     }
 
     @Override

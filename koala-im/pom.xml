@@ -17,6 +17,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.koala</groupId>
+            <artifactId>koala-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!--junit-->
         <dependency>
             <groupId>junit</groupId>
