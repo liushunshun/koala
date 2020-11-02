@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2019/10/16
  */
 @Data
-public class KoalaResponse extends Result{
+public class KoalaResponse extends Result {
 
     /**
      * 请求ID
@@ -25,20 +25,29 @@ public class KoalaResponse extends Result{
     public KoalaResponse() {
     }
 
-    public KoalaResponse(String requestId,String type) {
+    public KoalaResponse(String requestId, String type) {
         this.requestId = requestId;
         this.type = type;
     }
 
     public KoalaResponse(ResponseStatus status) {
-        if(ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())){
+        if (ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())) {
             setOk(false);
         }
         setErrorCode(status.getCode());
         setErrorMessage(status.getDescription());
     }
-    public KoalaResponse(Integer errorCode,String errorMsg) {
-        if(ResponseStatus.OK != ResponseStatus.getEnum(errorCode)){
+
+    public KoalaResponse(ResponseStatus status, String msgExt) {
+        if (ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())) {
+            setOk(false);
+        }
+        setErrorCode(status.getCode());
+        setErrorMessage(status.getDescription() + ":" + msgExt);
+    }
+
+    public KoalaResponse(Integer errorCode, String errorMsg) {
+        if (ResponseStatus.OK != ResponseStatus.getEnum(errorCode)) {
             setOk(false);
         }
         setErrorCode(errorCode);
@@ -52,26 +61,27 @@ public class KoalaResponse extends Result{
         setData(result.getData());
     }
 
-    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus){
+    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus) {
 
-        KoalaResponse response =  new KoalaResponse(requestId,type);
+        KoalaResponse response = new KoalaResponse(requestId, type);
         response.response(responseStatus);
 
         return response;
     }
 
-    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus, String errorMessage){
+    public static KoalaResponse response(String requestId, String type, ResponseStatus responseStatus,
+                                         String errorMessage) {
 
-        KoalaResponse response =  new KoalaResponse(requestId,type);
-        response.response(responseStatus,errorMessage);
+        KoalaResponse response = new KoalaResponse(requestId, type);
+        response.response(responseStatus, errorMessage);
 
         return response;
     }
 
-    public static KoalaResponse response(String requestId, String type, Integer errorCode, String errorMessage){
+    public static KoalaResponse response(String requestId, String type, Integer errorCode, String errorMessage) {
 
-        KoalaResponse response =  new KoalaResponse(requestId,type);
-        response.response(errorCode,errorMessage);
+        KoalaResponse response = new KoalaResponse(requestId, type);
+        response.response(errorCode, errorMessage);
 
         return response;
     }

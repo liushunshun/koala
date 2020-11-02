@@ -25,6 +25,6 @@ public class KoalaSendTextRequest extends KoalaSendRequest{
             list.add("text");
         }
         return list;
-
     }
+
 }

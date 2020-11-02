@@ -1,9 +1,5 @@
 package com.koala.gateway.enums;
 
-import com.koala.gateway.dto.KoalaAckRequest;
-import com.koala.gateway.dto.KoalaSendRequest;
-import com.koala.gateway.dto.KoalaRequest;
-
 import java.util.Objects;
 
 /**
@@ -13,15 +9,19 @@ import java.util.Objects;
 
 public enum RequestType {
 
-    CONNECTION("CONNECTION","连接", KoalaRequest.class),
-    HEART_BEAT("HEART_BEAT","心跳", KoalaRequest.class),
-    CHAT_MSG_SEND("CHAT_MSG_SEND","发送聊天消息", KoalaSendRequest.class),
-    CHAT_MSG_ACK("CHAT_MSG_ACK","消息ACK",KoalaAckRequest.class);
+    CONNECTION("CONNECTION","连接"),
+    HEART_BEAT("HEART_BEAT","心跳"),
+    CHAT_MSG_TEXT("CHAT_MSG_TEXT","发送文本消息"),
+    CHAT_MSG_ACK("CHAT_MSG_ACK","消息ACK"),
 
-    RequestType(String code, String description, Class dtoClazz) {
+    /**
+     * http request
+     */
+    LOGIN("/login","登陆");
+
+    RequestType(String code, String description) {
         this.code = code;
         this.description = description;
-        this.dtoClazz = dtoClazz;
     }
 
 
@@ -38,8 +38,6 @@ public enum RequestType {
 
     private String description;
 
-    private Class dtoClazz;
-
     public String getCode() {
         return code;
     }
@@ -48,7 +46,4 @@ public enum RequestType {
         return description;
     }
 
-    public Class getDtoClazz(){
-        return dtoClazz;
-    }
 }

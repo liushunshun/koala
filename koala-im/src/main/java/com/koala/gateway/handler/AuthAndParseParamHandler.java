@@ -5,6 +5,7 @@ import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
+import com.koala.gateway.initializer.WebSocketChannelInitializer;
 import com.koala.utils.HttpParamParser;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -15,6 +16,7 @@ import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -35,16 +37,8 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
 
         log.warn("HTTP_REQUEST url={},connectionParam={}",httpRequest.uri(),connectionParam);
 
-        //参数校验
-        List<String> invalidParams = checkParam(connectionParam);
-
-        if(CollectionUtils.isNotEmpty(invalidParams)){
-            log.warn("AuthAndParseParamHandler checkParam failed uri={} ,connectionParam={},invalidParams={}",httpRequest.uri(),connectionParam,invalidParams);
-            ctx.channel().writeAndFlush(JSON.toJSONString(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.INVALID_PARAM, JSON.toJSONString(invalidParams)))).addListener(ChannelFutureListener.CLOSE);
-            return;
-        }
         //鉴权
-        boolean authResult = auth(connectionParam);
+        boolean authResult = Objects.equals(httpRequest.uri(),"/login") ? true : auth(connectionParam);
         if(!authResult){
             log.warn("AuthAndParseParamHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
             ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
@@ -63,8 +57,8 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
     }
 
     private List<String> checkParam(ConnectionParam param){
-        if(param == null || StringUtils.isBlank(param.getUserId())){
-            return Lists.newArrayList("userId");
+        if(param == null || StringUtils.isBlank(param.getToken())){
+            return Lists.newArrayList("token");
         }
         return null;
     }
@@ -76,10 +70,10 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
 
             HttpParamParser httpParamParser = new HttpParamParser(request);
 
-            String userId = httpParamParser.getParam("userId");
+            String token = httpParamParser.getParam("token");
 
-            connectionParam.setUserId(userId);
-
+            connectionParam.setToken(token);
+            connectionParam.setProtocol(Objects.equals(WebSocketChannelInitializer.WS_URI,uri) ? ConnectionParam.WS : ConnectionParam.HTTP);
         }catch (Exception e){
             log.error("AuthAndParseParamHandler parseParam exception uri={},connectionParam={}",uri,connectionParam);
         }
@@ -88,7 +82,7 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
 
     private boolean auth(ConnectionParam param){
 
-        if(param == null || StringUtils.isBlank(param.getUserId())){
+        if(param == null || StringUtils.isBlank(param.getToken())){
             return false;
         }
         return true;

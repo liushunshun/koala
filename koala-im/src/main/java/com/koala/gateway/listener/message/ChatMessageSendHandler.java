@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("CHAT_MSG_SEND")
-public class ChatMessageSendListener implements MessageListener {
+public class ChatMessageSendHandler implements MessageHandler {
 
     @Autowired
     private MessageService messageService;

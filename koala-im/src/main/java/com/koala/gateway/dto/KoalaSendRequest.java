@@ -3,6 +3,8 @@ package com.koala.gateway.dto;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.koala.api.enums.MessageType;
+import com.koala.gateway.encoder.KoalaRequestParamParser;
+import com.koala.gateway.enums.RequestType;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,7 +17,7 @@ import java.util.List;
  */
 
 @Data
-public class KoalaSendRequest extends KoalaRequest{
+public abstract class KoalaSendRequest extends KoalaRequest{
 
     private String sessionId;
 
@@ -40,15 +42,4 @@ public class KoalaSendRequest extends KoalaRequest{
         return list;
     }
 
-    public static KoalaRequest paramParse(String content) {
-        JSONObject object = JSON.parseObject(content);
-
-        MessageType messageType = MessageType.getEnum(object.getString("msgType"));
-        if(messageType == MessageType.TEXT){
-
-            KoalaSendTextRequest textRequest = JSON.parseObject(content,KoalaSendTextRequest.class);
-            return textRequest;
-        }
-        return null;
-    }
 }

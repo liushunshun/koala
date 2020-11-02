@@ -6,7 +6,7 @@ import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.enums.RequestType;
 import com.koala.api.enums.ResponseStatus;
-import com.koala.gateway.listener.message.MessageListener;
+import com.koala.gateway.listener.message.MessageHandler;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,12 +30,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaRequest> {
 
     @Autowired
-    private Map<String,MessageListener> listenerMap = new ConcurrentHashMap<>();
+    private Map<String,MessageHandler> listenerMap = new ConcurrentHashMap<>();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg){
 
-        RequestType requestType = RequestType.getEnum(msg.getType());
+        RequestType requestType = RequestType.getEnum(msg.getRequestType());
         if(requestType == null){
             throw new IllegalArgumentException("invalid type");
         }
@@ -47,11 +47,11 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
             throw new IllegalArgumentException("invalid "+ illegalArguments.toString());
         }
 
-        MessageListener messageListener = listenerMap.get(msg.getType());
+        MessageHandler messageHandler = listenerMap.get(msg.getRequestType());
 
         KoalaResponse response;
         try{
-            response = messageListener.receive(msg);
+            response = messageHandler.receive(msg);
         }catch (BizException e){
             log.error("WebSocketServerHandler.channelRead0 receive exception msg={}",JSON.toJSONString(msg),e);
             response = new KoalaResponse(e.getCode(),e.getMessage());
@@ -60,9 +60,9 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
             response = new KoalaResponse(ResponseStatus.SYSTEM_EXCEPTION);
         }
         response.setRequestId(msg.getRequestId());
-        response.setType(msg.getType());
+        response.setType(msg.getRequestType());
 
-        ctx.channel().writeAndFlush(JSON.toJSONString(response));
+        ctx.channel().writeAndFlush(response);
     }
 
     @Override

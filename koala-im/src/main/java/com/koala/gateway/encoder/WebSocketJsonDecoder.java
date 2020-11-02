@@ -48,13 +48,7 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
                 throw new IllegalArgumentException("type not support");
             }
 
-            KoalaRequest koalaRequest = null;
-
-            if(requestType == RequestType.CHAT_MSG_ACK){
-                koalaRequest = KoalaAckRequest.paramParse(content);
-            }else if(requestType == RequestType.CHAT_MSG_SEND){
-                koalaRequest = KoalaSendRequest.paramParse(content);
-            }
+            KoalaRequest koalaRequest = KoalaRequestParamParser.parseParam(requestType,content);
 
             if(koalaRequest == null){
                 throw new IllegalArgumentException("parse koalaRequest failed");

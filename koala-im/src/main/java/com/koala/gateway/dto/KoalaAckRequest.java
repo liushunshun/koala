@@ -1,9 +1,10 @@
 package com.koala.gateway.dto;
 
-import com.alibaba.fastjson.JSON;
+import com.koala.gateway.encoder.KoalaRequestParamParser;
+import com.koala.gateway.enums.RequestType;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,4 @@ public class KoalaAckRequest extends KoalaRequest{
 
     }
 
-    public static KoalaRequest paramParse(String content) {
-        return JSON.parseObject(content,KoalaAckRequest.class);
-    }
 }

@@ -15,15 +15,19 @@ public class ConnectionParam {
     public static AttributeKey<ConnectionParam> CHANNEL_PARAM = AttributeKey.valueOf("CHANNEL_PARAM");
     public static AttributeKey<LocalDateTime> HEART_BEAT_TIME = AttributeKey.valueOf("HEART_BEAT_TIME");
 
-    private String userId;
+    public static final String WS = "ws";
+    public static final String HTTP = "http";
+
+    private String protocol;
+    private String token;
 
     public ConnectionParam(){
     }
-    public ConnectionParam(String userId){
-        this.userId = userId;
+    public ConnectionParam(String token){
+        this.token = token;
     }
 
     public String uniqueKey(){
-        return userId;
+        return token;
     }
 }

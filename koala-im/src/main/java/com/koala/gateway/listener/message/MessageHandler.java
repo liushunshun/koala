@@ -9,7 +9,7 @@ import com.koala.gateway.dto.KoalaResponse;
  * @date 2019/10/21
  */
 
-public interface MessageListener {
+public interface MessageHandler {
 
     KoalaResponse receive(KoalaRequest koalaRequest)throws BizException;
 }

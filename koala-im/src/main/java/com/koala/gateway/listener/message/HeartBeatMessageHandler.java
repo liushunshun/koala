@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("HEART_BEAT")
-public class HeartBeatMessageListener implements MessageListener {
+public class HeartBeatMessageHandler implements MessageHandler {
 
     @Autowired
     private ConnectionManager connectionManager;
@@ -23,7 +23,7 @@ public class HeartBeatMessageListener implements MessageListener {
     @Override
     public KoalaResponse receive(KoalaRequest koalaRequest) {
 
-        log.info("HeartBeatMessageListener ping koalaRequest={}",koalaRequest);
+        log.info("HeartBeatMessageHandler ping koalaRequest={}",koalaRequest);
 
         connectionManager.heartBeat(koalaRequest.getConnectionParam());
 

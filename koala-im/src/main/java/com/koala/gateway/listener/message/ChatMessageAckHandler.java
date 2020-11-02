@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("CHAT_MSG_ACK")
-public class ChatMessageAckListener implements MessageListener {
+public class ChatMessageAckHandler implements MessageHandler {
 
     @Autowired
     private MessageAckManager messageAckManager;

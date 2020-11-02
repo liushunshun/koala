@@ -57,6 +57,9 @@ public class ConnectionManager {
     }
 
     public void close(String uniqueKey){
+        if(uniqueKey == null){
+            return;
+        }
         channels.remove(uniqueKey);
     }
 }
