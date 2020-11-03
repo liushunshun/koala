@@ -31,7 +31,6 @@ public class HttpPostParamDecoder extends MessageToMessageDecoder<FullHttpReques
 
     @Override
     protected void decode(ChannelHandlerContext ctx, FullHttpRequest request, List<Object> out) throws Exception {
-        log.info("执行：HttpPostParamDecoder");
         KoalaRequest koalaRequest = null;
 
         ConnectionParam connectionParam = null;

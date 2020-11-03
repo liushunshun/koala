@@ -33,8 +33,6 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
-
-        log.info("执行：AuthAndParseParamHandler");
         //解析参数
         ConnectionParam connectionParam = parseParam(httpRequest);
 

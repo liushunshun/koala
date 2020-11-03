@@ -29,8 +29,6 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
     @Override
     protected void decode(ChannelHandlerContext ctx, TextWebSocketFrame msg, List out) throws Exception {
 
-        log.info("执行：WebSocketJsonDecoder");
-
         String content = msg.text();
         String type;
         ConnectionParam connectionParam = null;

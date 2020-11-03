@@ -33,8 +33,6 @@ public class BadRequestHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("执行：WebSocketJsonDecoder");
-
         log.warn("base response handler: can not find any handler to process this request");
         ctx.channel().writeAndFlush(new TextWebSocketFrame("error")).addListener(ChannelFutureListener.CLOSE);
     }

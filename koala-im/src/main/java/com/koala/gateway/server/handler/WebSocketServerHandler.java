@@ -33,9 +33,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest msg){
-
-        log.info("执行：WebSocketJsonDecoder");
-
         RequestType requestType = RequestType.getEnum(msg.getRequestType());
         if(requestType == null){
             throw new IllegalArgumentException("invalid type");

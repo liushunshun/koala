@@ -24,8 +24,6 @@ public class NettyResponseHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise){
 
-        log.info("执行：WebSocketJsonEncoder");
-
         if(msg instanceof WebSocketFrame){
             ctx.writeAndFlush(msg, promise);
             return;
