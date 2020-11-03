@@ -1,9 +1,8 @@
 package com.koala.gateway.dto;
 
-import com.koala.gateway.connection.ConnectionParam;
+import com.koala.gateway.server.connection.ConnectionParam;
 import io.netty.channel.Channel;
 import lombok.Data;
-import org.springframework.beans.factory.InitializingBean;
 
 import java.util.List;
 

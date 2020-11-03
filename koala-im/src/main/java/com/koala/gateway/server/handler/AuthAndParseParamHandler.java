@@ -2,7 +2,7 @@ package com.koala.gateway.server.handler;
 
 import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
-import com.koala.gateway.connection.ConnectionParam;
+import com.koala.gateway.server.connection.ConnectionParam;
 import com.koala.gateway.enums.RequestType;
 import com.koala.utils.HttpParamParser;
 import io.netty.channel.ChannelFutureListener;

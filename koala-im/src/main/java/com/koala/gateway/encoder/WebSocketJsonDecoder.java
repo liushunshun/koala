@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
-import com.koala.gateway.connection.ConnectionParam;
+import com.koala.gateway.server.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.enums.RequestType;
 import io.netty.channel.Channel;

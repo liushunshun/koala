@@ -2,7 +2,7 @@ package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.koala.api.dto.Result;
-import com.koala.gateway.connection.ConnectionParam;
+import com.koala.gateway.server.connection.ConnectionParam;
 import com.koala.utils.NettyResponseUtil;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

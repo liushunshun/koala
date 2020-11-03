@@ -1,21 +1,14 @@
 package com.koala.service;
 
 import com.alibaba.fastjson.JSON;
-import com.koala.api.BizException;
 import com.koala.api.dto.MessageDTO;
 import com.koala.api.dto.MessageSendParam;
 import com.koala.api.dto.MessageSendResult;
 import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.api.service.MessageService;
-import com.koala.gateway.connection.ConnectionManager;
-import com.koala.gateway.connection.ConnectionParam;
-import com.koala.route.ack.AckTask;
 import com.koala.route.ack.MessageAckManager;
 import com.koala.route.push.MessagePushManager;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

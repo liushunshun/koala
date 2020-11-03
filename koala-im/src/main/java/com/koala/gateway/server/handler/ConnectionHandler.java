@@ -1,8 +1,8 @@
 package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.handler.connection.CustomConnectionHandler;
+import com.koala.gateway.server.connection.ConnectionParam;
+import com.koala.gateway.server.connection.CustomConnectionHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

@@ -1,4 +1,4 @@
-package com.koala.gateway.connection;
+package com.koala.gateway.server.connection;
 
 import io.netty.util.AttributeKey;
 import lombok.Data;

@@ -1,6 +1,6 @@
-package com.koala.gateway.handler.connection;
+package com.koala.gateway.server.connection;
 
-import com.koala.gateway.connection.ConnectionParam;
+import com.koala.gateway.server.connection.ConnectionParam;
 import io.netty.channel.Channel;
 
 /**

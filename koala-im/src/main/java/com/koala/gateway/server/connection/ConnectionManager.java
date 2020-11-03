@@ -1,4 +1,4 @@
-package com.koala.gateway.connection;
+package com.koala.gateway.server.connection;
 
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.koala.gateway.handler.message;
 
 import com.koala.api.BizException;
 import com.koala.api.dto.Result;
-import com.koala.gateway.connection.ConnectionManager;
+import com.koala.gateway.server.connection.ConnectionManager;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.enums.RequestType;
 import com.koala.gateway.server.handler.HttpRequestHandlerFactory;
