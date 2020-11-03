@@ -34,6 +34,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<KoalaRequest>
             }
             Result response = requestHandler.handle(request);
 
+            response.setRequestType(request.getRequestType());
+            response.setRequestId(request.getRequestId());
+
             log.info("HttpServerHandler.channelRead0 request={},response={}", JSON.toJSONString(request),JSON.toJSONString(response));
             ctx.channel().writeAndFlush(response);
 
