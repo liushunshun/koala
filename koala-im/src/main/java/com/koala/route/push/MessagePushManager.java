@@ -42,7 +42,7 @@ public class MessagePushManager {
             }
 
             if(! channel.isActive()){
-                throw new BizException(ResponseStatus.CONNECTION_NOT_ACTIVEE);
+                throw new BizException(ResponseStatus.CONNECTION_NOT_ACTIVE);
             }
 
             //推送到链接

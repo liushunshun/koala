@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/10/16
  */
 @Slf4j
-@Component("HEART_BEAT")
+@Component
 public class HeartBeatMessageHandler implements RequestHandler {
 
     @Autowired

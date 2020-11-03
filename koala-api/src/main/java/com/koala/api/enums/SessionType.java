@@ -9,7 +9,7 @@ import java.util.Objects;
 public enum SessionType {
 
     SINGLE(0,"单聊"),
-    GROUP(2,"群聊");
+    GROUP(1,"群聊");
 
     private Integer code;
 

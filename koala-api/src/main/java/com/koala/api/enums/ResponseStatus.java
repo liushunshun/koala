@@ -11,7 +11,7 @@ public enum ResponseStatus {
     SYSTEM_EXCEPTION(2,"系统异常"),
     AUTH_FAILED(3,"鉴权失败"),
     CONNECTION_NOT_ONLINE(4,"用户端未建立连接"),
-    CONNECTION_NOT_ACTIVEE(5,"用户端连接不在活跃状态"),
+    CONNECTION_NOT_ACTIVE(5,"用户端连接不在活跃状态"),
     INVALID_MSG_TYPE(6,"不支持的消息类型"),
     INVALID_REQUEST_TYPE(7,"不支持的请求类型");
 

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/10/16
  */
 @Slf4j
-@Component("CHAT_MSG_ACK")
+@Component
 public class ChatMessageAckHandler implements RequestHandler {
 
     @Override
