@@ -32,8 +32,7 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
         log.info("执行：WebSocketJsonDecoder");
 
         String content = msg.text();
-        String requestId = null;
-        String type = "";
+        String type;
         ConnectionParam connectionParam = null;
         try{
             connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
@@ -57,8 +56,6 @@ public class WebSocketJsonDecoder extends MessageToMessageDecoder<TextWebSocketF
             if(koalaRequest.getRequestId() == null){
                 koalaRequest.setRequestId(UUID.randomUUID().toString().replace("-",""));
             }
-
-            requestId = koalaRequest.getRequestId();
 
             koalaRequest.setConnectionParam(connectionParam);
             koalaRequest.setChannel(ctx.channel());

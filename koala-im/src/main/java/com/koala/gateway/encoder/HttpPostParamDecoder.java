@@ -12,6 +12,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -42,9 +43,11 @@ public class HttpPostParamDecoder extends MessageToMessageDecoder<FullHttpReques
 
             if (StringUtils.isNotBlank(content)) {
 
-                RequestType requestType = RequestType.getEnum(request.uri());
+                QueryStringDecoder decoder = new QueryStringDecoder(request.uri());
+                RequestType requestType = RequestType.getEnum(decoder.path());
 
                 if (requestType == null) {
+                    out.add(request.retain());
                     return;
                 }
 
