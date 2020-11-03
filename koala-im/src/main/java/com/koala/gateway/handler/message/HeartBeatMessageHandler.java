@@ -1,9 +1,9 @@
 package com.koala.gateway.handler.message;
 
 import com.koala.api.BizException;
+import com.koala.api.dto.Result;
 import com.koala.gateway.connection.ConnectionManager;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
 import com.koala.gateway.server.handler.HttpRequestHandlerFactory;
 import com.koala.gateway.server.handler.RequestHandler;
@@ -30,12 +30,12 @@ public class HeartBeatMessageHandler implements RequestHandler {
     }
 
     @Override
-    public KoalaResponse handle(KoalaRequest koalaRequest) throws BizException {
+    public Result handle(KoalaRequest koalaRequest) throws BizException {
         log.info("HeartBeatMessageHandler ping koalaRequest={}",koalaRequest);
 
         connectionManager.heartBeat(koalaRequest.getConnectionParam());
 
-        return new KoalaResponse();
+        return new Result();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.koala.api.dto.Result;
 import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.utils.NettyResponseUtil;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -29,7 +29,7 @@ public class NettyResponseHandler extends ChannelOutboundHandlerAdapter {
         if(msg instanceof WebSocketFrame){
             ctx.writeAndFlush(msg, promise);
             return;
-        }else if(msg instanceof KoalaResponse){
+        }else if(msg instanceof Result){
             ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
             if(connectionParam == null){
                 return;

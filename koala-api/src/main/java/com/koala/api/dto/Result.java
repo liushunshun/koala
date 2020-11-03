@@ -19,7 +19,41 @@ public class Result<T> {
 
     protected T data;
 
+    /**
+     * 请求ID
+     */
+    private String requestId;
+
+    /**
+     * 协议类型，心跳、发送聊天消息、数据请求、消息推送
+     */
+    private String requestType;
+
     public Result() {
+    }
+
+    public Result(ResponseStatus status) {
+        if (ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())) {
+            setOk(false);
+        }
+        setErrorCode(status.getCode());
+        setErrorMessage(status.getDescription());
+    }
+
+    public Result(ResponseStatus status, String msgExt) {
+        if (ResponseStatus.OK != ResponseStatus.getEnum(status.getCode())) {
+            setOk(false);
+        }
+        setErrorCode(status.getCode());
+        setErrorMessage(status.getDescription() + ":" + msgExt);
+    }
+
+    public Result(Integer errorCode, String errorMsg) {
+        if (ResponseStatus.OK != ResponseStatus.getEnum(errorCode)) {
+            setOk(false);
+        }
+        setErrorCode(errorCode);
+        setErrorMessage(errorMsg);
     }
 
     public static Result create(){

@@ -1,12 +1,14 @@
 package com.koala.gateway.server.handler;
 
+import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
-import com.koala.gateway.server.handler.WebSocketChannelInitializer;
 import com.koala.utils.HttpParamParser;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,7 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
         boolean authResult = Objects.equals(decoder.path(),RequestType.LOGIN.getCode()) ? true : auth(connectionParam);
         if(!authResult){
             log.warn("AuthAndParseParamHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
-            ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
+            ctx.channel().writeAndFlush(new Result(ResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);
             return;
         }
         ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).set(connectionParam);
@@ -55,7 +57,7 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("base response handler: exception caught", cause);
-        ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
+        ctx.channel().writeAndFlush(new Result(ResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
         super.exceptionCaught(ctx, cause);
     }
 

@@ -2,13 +2,11 @@ package com.koala.gateway.encoder;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
-import com.koala.api.BizException;
+import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaEmptyParamRequest;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -68,14 +66,14 @@ public class HttpPostParamDecoder extends MessageToMessageDecoder<FullHttpReques
 
         } catch (IllegalArgumentException | JSONException e) {
             log.warn("decode param invalid : connectionParam={},content={} ,errorMessage={}", JSON.toJSONString(connectionParam), content, e.getMessage());
-            response(ctx.channel(), KoalaResponse.response(koalaRequest.getRequestId(), koalaRequest.getRequestType(), ResponseStatus.INVALID_PARAM, e.getMessage()));
+            response(ctx.channel(), new Result(ResponseStatus.INVALID_PARAM));
         } catch (Exception e) {
             log.warn("decode exception param : connectionParam={},content{}", JSON.toJSONString(connectionParam), content, e);
-            response(ctx.channel(), KoalaResponse.response(koalaRequest.getRequestId(), koalaRequest.getRequestType(), ResponseStatus.SYSTEM_EXCEPTION, e.getMessage()));
+            response(ctx.channel(), new Result(ResponseStatus.SYSTEM_EXCEPTION));
         }
     }
 
-    private void response(Channel channel, KoalaResponse koalaResponse) {
-        channel.writeAndFlush(koalaResponse);
+    private void response(Channel channel, Result result) {
+        channel.writeAndFlush(result);
     }
 }

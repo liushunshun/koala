@@ -9,7 +9,6 @@ import com.koala.api.enums.MessageType;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.api.service.MessageService;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.KoalaSendRequest;
 import com.koala.gateway.dto.KoalaSendTextRequest;
 import com.koala.gateway.enums.RequestType;
@@ -36,14 +35,14 @@ public class ChatMessageSendHandler implements RequestHandler {
     }
 
     @Override
-    public KoalaResponse handle(KoalaRequest koalaRequest) throws BizException {
+    public Result handle(KoalaRequest koalaRequest) throws BizException {
         KoalaSendRequest messageSendRequest = (KoalaSendRequest)koalaRequest;
 
         Result<MessageSendResult> sendResult =  messageService.send(convertParam(messageSendRequest));
 
         log.info("ChatMessageSendHandler send message success messageSendRequest={},sendResult={}",messageSendRequest,sendResult);
 
-        return new KoalaResponse(sendResult);
+        return sendResult;
     }
 
     @Override

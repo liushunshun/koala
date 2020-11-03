@@ -1,8 +1,8 @@
 package com.koala.gateway.server.handler;
 
 import com.koala.api.BizException;
+import com.koala.api.dto.Result;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -26,6 +26,6 @@ public interface RequestHandler extends InitializingBean{
      * @return
      * @throws BizException
      */
-    KoalaResponse handle(KoalaRequest koalaRequest)throws BizException;
+    Result handle(KoalaRequest koalaRequest)throws BizException;
 
 }

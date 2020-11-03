@@ -1,13 +1,13 @@
 package com.koala.gateway.handler.http;
 
+import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.dto.KoalaLoginRequest;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.LoginResult;
 import com.koala.gateway.enums.RequestType;
-import com.koala.gateway.server.handler.RequestHandler;
 import com.koala.gateway.server.handler.HttpRequestHandlerFactory;
+import com.koala.gateway.server.handler.RequestHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class LoginHandler implements RequestHandler {
     }
 
     @Override
-    public KoalaResponse handle(KoalaRequest koalaRequest){
+    public Result handle(KoalaRequest koalaRequest){
 
         KoalaLoginRequest loginRequest = (KoalaLoginRequest)koalaRequest;
 
@@ -35,11 +35,10 @@ public class LoginHandler implements RequestHandler {
             LoginResult result = new LoginResult();
             result.setToken(UUID.randomUUID().toString().replace("-",""));
 
-            KoalaResponse koalaResponse = new KoalaResponse();
-            koalaResponse.setData(result);
-            return koalaResponse;
+
+            return Result.success(result);
         }
-        return new KoalaResponse(ResponseStatus.AUTH_FAILED);
+        return new Result(ResponseStatus.AUTH_FAILED);
     }
 
     @Override

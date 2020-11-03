@@ -2,9 +2,9 @@ package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.koala.api.BizException;
+import com.koala.api.dto.Result;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
@@ -50,18 +50,18 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
 
         RequestHandler messageHandler = listenerMap.get(msg.getRequestType());
 
-        KoalaResponse response;
+        Result response;
         try{
             response = messageHandler.handle(msg);
         }catch (BizException e){
             log.error("WebSocketServerHandler.channelRead0 receive exception msg={}",JSON.toJSONString(msg),e);
-            response = new KoalaResponse(e.getCode(),e.getMessage());
+            response = new Result(e.getCode(),e.getMessage());
         }catch (Exception e){
             log.error("WebSocketServerHandler.channelRead0 receive exception msg={}",JSON.toJSONString(msg),e);
-            response = new KoalaResponse(ResponseStatus.SYSTEM_EXCEPTION);
+            response = new Result(ResponseStatus.SYSTEM_EXCEPTION);
         }
         response.setRequestId(msg.getRequestId());
-        response.setType(msg.getRequestType());
+        response.setRequestType(msg.getRequestType());
 
         ctx.channel().writeAndFlush(response);
     }
@@ -72,7 +72,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<KoalaReq
             return;
         }
         log.warn("WebSocketServerHandler exception",cause);
-        ctx.channel().writeAndFlush(KoalaResponse.response("", "", ResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
+        ctx.channel().writeAndFlush(new Result(ResponseStatus.SYSTEM_EXCEPTION)).addListener(ChannelFutureListener.CLOSE);
         ctx.close();
         return;
     }

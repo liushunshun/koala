@@ -1,9 +1,9 @@
 package com.koala.gateway.handler.message;
 
 import com.koala.api.BizException;
+import com.koala.api.dto.Result;
 import com.koala.gateway.dto.KoalaAckRequest;
 import com.koala.gateway.dto.KoalaRequest;
-import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
 import com.koala.gateway.server.handler.HttpRequestHandlerFactory;
 import com.koala.gateway.server.handler.RequestHandler;
@@ -28,7 +28,7 @@ public class ChatMessageAckHandler implements RequestHandler {
     }
 
     @Override
-    public KoalaResponse handle(KoalaRequest koalaRequest) throws BizException {
+    public Result handle(KoalaRequest koalaRequest) throws BizException {
         KoalaAckRequest messageAckRequest = (KoalaAckRequest)koalaRequest;
 
         if(CollectionUtils.isNotEmpty(messageAckRequest.getMessageIds())){
@@ -36,7 +36,7 @@ public class ChatMessageAckHandler implements RequestHandler {
         }
         log.info("ChatMessageAckHandler ack message success messageAckRequest={}",messageAckRequest);
 
-        return new KoalaResponse();
+        return new Result();
     }
 
     @Override
