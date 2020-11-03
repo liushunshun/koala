@@ -51,7 +51,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
      * @throws Exception
      */
     @Override
-    protected void initChannel(NioSocketChannel ch) throws Exception {
+    protected void initChannel(NioSocketChannel ch){
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(GatewayConstants.MAX_AGGREGATED_CONTENT_LENGTH));

@@ -1,8 +1,5 @@
 package com.koala.gateway.server.connection;
 
-import com.koala.gateway.server.connection.ConnectionManager;
-import com.koala.gateway.server.connection.ConnectionParam;
-import com.koala.gateway.server.connection.CustomConnectionHandler;
 import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
