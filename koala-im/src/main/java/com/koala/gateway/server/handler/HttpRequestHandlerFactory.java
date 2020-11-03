@@ -1,4 +1,4 @@
-package com.koala.gateway.listener.http;
+package com.koala.gateway.server.handler;
 
 import com.koala.gateway.enums.RequestType;
 
@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class HttpRequestHandlerFactory {
 
-    public static final Map<RequestType,HttpRequestHandler> httpRequestHandlerMap = new ConcurrentHashMap<>();
+    public static final Map<RequestType, RequestHandler> httpRequestHandlerMap = new ConcurrentHashMap<>();
 
-    public static void register(HttpRequestHandler requestHandler){
+    public static void register(RequestHandler requestHandler){
         httpRequestHandlerMap.put(requestHandler.getRequestType(),requestHandler);
     }
 
-    public static HttpRequestHandler getHandler(RequestType requestType){
+    public static RequestHandler getHandler(RequestType requestType){
         if(requestType == null){
             return null;
         }

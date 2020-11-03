@@ -1,16 +1,15 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.server.handler;
 
-import com.alibaba.fastjson.JSON;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.connection.ConnectionParam;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
-import com.koala.gateway.initializer.WebSocketChannelInitializer;
+import com.koala.gateway.server.handler.WebSocketChannelInitializer;
 import com.koala.utils.HttpParamParser;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Component;
@@ -32,13 +31,17 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
+
+        log.info("执行：AuthAndParseParamHandler");
         //解析参数
         ConnectionParam connectionParam = parseParam(httpRequest);
 
         log.warn("HTTP_REQUEST url={},connectionParam={}",httpRequest.uri(),connectionParam);
 
         //鉴权
-        boolean authResult = Objects.equals(httpRequest.uri(),"/login") ? true : auth(connectionParam);
+        QueryStringDecoder decoder = new QueryStringDecoder(httpRequest.uri());
+
+        boolean authResult = Objects.equals(decoder.path(),RequestType.LOGIN.getCode()) ? true : auth(connectionParam);
         if(!authResult){
             log.warn("AuthAndParseParamHandler auth failed uri={} ,connectionParam={}",httpRequest.uri(),connectionParam);
             ctx.channel().writeAndFlush(KoalaResponse.response("", RequestType.CONNECTION.getCode(), ResponseStatus.AUTH_FAILED)).addListener(ChannelFutureListener.CLOSE);

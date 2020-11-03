@@ -1,4 +1,4 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -7,8 +7,6 @@ import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.enums.RequestType;
-import com.koala.gateway.listener.http.HttpRequestHandler;
-import com.koala.gateway.listener.http.HttpRequestHandlerFactory;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -29,8 +27,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<KoalaRequest>
     protected void channelRead0(ChannelHandlerContext ctx, KoalaRequest request) throws Exception {
 
         try{
-
-            HttpRequestHandler requestHandler = HttpRequestHandlerFactory.getHandler(RequestType.getEnum(request.getRequestType()));
+            RequestHandler requestHandler = HttpRequestHandlerFactory.getHandler(RequestType.getEnum(request.getRequestType()));
 
             if(requestHandler == null){
                 throw new BizException(ResponseStatus.INVALID_REQUEST_TYPE);

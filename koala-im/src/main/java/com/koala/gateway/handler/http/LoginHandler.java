@@ -1,13 +1,13 @@
-package com.koala.gateway.listener.http;
+package com.koala.gateway.handler.http;
 
-import com.koala.api.BizException;
 import com.koala.api.enums.ResponseStatus;
 import com.koala.gateway.dto.KoalaLoginRequest;
 import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
 import com.koala.gateway.dto.LoginResult;
 import com.koala.gateway.enums.RequestType;
-import org.springframework.beans.factory.InitializingBean;
+import com.koala.gateway.server.handler.RequestHandler;
+import com.koala.gateway.server.handler.HttpRequestHandlerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -18,7 +18,7 @@ import java.util.UUID;
  * @date 2020/11/02
  */
 @Component
-public class LoginHandler implements HttpRequestHandler{
+public class LoginHandler implements RequestHandler {
 
     @Override
     public RequestType getRequestType() {

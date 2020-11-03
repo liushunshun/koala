@@ -1,4 +1,4 @@
-package com.koala.gateway.listener.connection;
+package com.koala.gateway.handler.connection;
 
 import com.koala.gateway.connection.ConnectionManager;
 import com.koala.gateway.connection.ConnectionParam;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ConnectionEventListener implements ConnectionListener {
+public class UserConnectionManageHandler implements CustomConnectionHandler {
 
     @Autowired
     private ConnectionManager connectionManager;

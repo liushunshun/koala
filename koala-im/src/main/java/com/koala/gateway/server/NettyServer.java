@@ -1,6 +1,6 @@
 package com.koala.gateway.server;
 
-import com.koala.gateway.initializer.WebSocketChannelInitializer;
+import com.koala.gateway.server.handler.WebSocketChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.*;

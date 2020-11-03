@@ -1,4 +1,4 @@
-package com.koala.gateway.listener.http;
+package com.koala.gateway.server.handler;
 
 import com.koala.api.BizException;
 import com.koala.gateway.dto.KoalaRequest;
@@ -12,10 +12,20 @@ import org.springframework.stereotype.Component;
  * @date 2020/11/02
  */
 @Component
-public interface HttpRequestHandler extends InitializingBean{
+public interface RequestHandler extends InitializingBean{
 
+    /**
+     * 支持的请求类型
+     * @return
+     */
     RequestType getRequestType();
 
+    /**
+     * 请求处理
+     * @param koalaRequest
+     * @return
+     * @throws BizException
+     */
     KoalaResponse handle(KoalaRequest koalaRequest)throws BizException;
 
 }

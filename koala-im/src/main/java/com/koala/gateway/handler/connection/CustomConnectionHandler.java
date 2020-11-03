@@ -1,4 +1,4 @@
-package com.koala.gateway.listener.connection;
+package com.koala.gateway.handler.connection;
 
 import com.koala.gateway.connection.ConnectionParam;
 import io.netty.channel.Channel;
@@ -8,7 +8,7 @@ import io.netty.channel.Channel;
  * @date 2019/10/21
  */
 
-public interface ConnectionListener {
+public interface CustomConnectionHandler {
 
     void connect(ConnectionParam param, Channel channel);
 

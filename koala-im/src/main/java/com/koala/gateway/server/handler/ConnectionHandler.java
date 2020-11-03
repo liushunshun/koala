@@ -1,8 +1,8 @@
-package com.koala.gateway.handler;
+package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.listener.connection.ConnectionListener;
+import com.koala.gateway.handler.connection.CustomConnectionHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -24,17 +24,20 @@ import java.util.List;
 public class ConnectionHandler  extends ChannelInboundHandlerAdapter {
 
     @Autowired
-    private List<ConnectionListener> connectionListeners;
+    private List<CustomConnectionHandler> customConnectionHandlers;
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+
+        log.info("执行：ConnectionHandler userEventTriggered");
+
         if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             WebSocketServerProtocolHandler.HandshakeComplete complete = (WebSocketServerProtocolHandler.HandshakeComplete) evt;
 
             ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
 
-            if(CollectionUtils.isNotEmpty(connectionListeners)){
-                connectionListeners.forEach(listener -> {
+            if(CollectionUtils.isNotEmpty(customConnectionHandlers)){
+                customConnectionHandlers.forEach(listener -> {
                     try{
                         listener.connect(connectionParam,ctx.channel());
                     }catch (Exception e){
@@ -49,9 +52,12 @@ public class ConnectionHandler  extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+
+        log.info("执行：ConnectionHandler channelInactive");
+
         ConnectionParam connectionParam = ctx.channel().attr(ConnectionParam.CHANNEL_PARAM).get();
-        if(CollectionUtils.isNotEmpty(connectionListeners)){
-            connectionListeners.forEach(listener -> {
+        if(CollectionUtils.isNotEmpty(customConnectionHandlers)){
+            customConnectionHandlers.forEach(listener -> {
                 try{
                     listener.close(connectionParam);
                 }catch (Exception e){

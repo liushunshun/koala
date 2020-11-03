@@ -1,21 +1,15 @@
-package com.koala.gateway.encoder;
+package com.koala.gateway.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.koala.gateway.connection.ConnectionParam;
-import com.koala.gateway.dto.KoalaRequest;
 import com.koala.gateway.dto.KoalaResponse;
-import com.koala.gateway.initializer.WebSocketChannelInitializer;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOutboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
-import io.netty.handler.codec.MessageToMessageEncoder;
+import com.koala.utils.NettyResponseUtil;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,10 +18,14 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-public class WebSocketJsonEncoder extends ChannelOutboundHandlerAdapter {
+@ChannelHandler.Sharable
+public class NettyResponseHandler extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise){
+
+        log.info("执行：WebSocketJsonEncoder");
+
         if(msg instanceof WebSocketFrame){
             ctx.writeAndFlush(msg, promise);
             return;
@@ -39,8 +37,9 @@ public class WebSocketJsonEncoder extends ChannelOutboundHandlerAdapter {
             if(Objects.equals(connectionParam.getProtocol(),ConnectionParam.WS)){
                 ctx.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(msg)), promise);
             }else{
-                ctx.writeAndFlush(JSON.toJSONString(msg), promise).addListener(ChannelFutureListener.CLOSE);
+                ctx.writeAndFlush(NettyResponseUtil.httpResponseJson(JSON.toJSONString(msg))).addListener(ChannelFutureListener.CLOSE);
             }
+
         }else{
             ctx.writeAndFlush(msg, promise);
         }
