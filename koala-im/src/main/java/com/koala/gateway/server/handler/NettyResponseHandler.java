@@ -34,7 +34,7 @@ public class NettyResponseHandler extends ChannelOutboundHandlerAdapter {
             if(connectionParam == null){
                 return;
             }
-            if(Objects.equals(connectionParam.getProtocol(),ConnectionParam.WS)){
+            if(Objects.equals(connectionParam.getPath(),WebSocketChannelInitializer.WS_URI)){
                 ctx.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(msg)), promise);
             }else{
                 ctx.writeAndFlush(NettyResponseUtil.httpResponseJson(JSON.toJSONString(msg))).addListener(ChannelFutureListener.CLOSE);

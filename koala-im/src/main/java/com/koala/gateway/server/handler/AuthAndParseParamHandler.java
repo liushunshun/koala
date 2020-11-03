@@ -73,12 +73,14 @@ public class AuthAndParseParamHandler extends SimpleChannelInboundHandler<FullHt
         String uri = request.uri();
         try{
 
+            QueryStringDecoder decoder = new QueryStringDecoder(uri);
+
             HttpParamParser httpParamParser = new HttpParamParser(request);
 
             String token = httpParamParser.getParam("token");
 
             connectionParam.setToken(token);
-            connectionParam.setProtocol(Objects.equals(WebSocketChannelInitializer.WS_URI,uri) ? ConnectionParam.WS : ConnectionParam.HTTP);
+            connectionParam.setPath(decoder.path());
         }catch (Exception e){
             log.error("AuthAndParseParamHandler parseParam exception uri={},connectionParam={}",uri,connectionParam);
         }

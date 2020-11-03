@@ -15,10 +15,7 @@ public class ConnectionParam {
     public static AttributeKey<ConnectionParam> CHANNEL_PARAM = AttributeKey.valueOf("CHANNEL_PARAM");
     public static AttributeKey<LocalDateTime> HEART_BEAT_TIME = AttributeKey.valueOf("HEART_BEAT_TIME");
 
-    public static final String WS = "ws";
-    public static final String HTTP = "http";
-
-    private String protocol;
+    private String path;
     private String token;
 
     public ConnectionParam(){
