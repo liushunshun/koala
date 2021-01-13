@@ -7,6 +7,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,18 @@ public class ConnectionHandler  extends ChannelInboundHandlerAdapter {
                 });
             }
             log.error("客户端与服务端会话连接成功 uri={},connectionParam={}",complete.requestUri(), JSON.toJSONString(connectionParam));
+        }else if(evt instanceof IdleStateEvent){
+            //todo 心跳超时处理
+            IdleStateEvent event = (IdleStateEvent) evt;
+            if (event.state().equals(IdleState.READER_IDLE)) {
+                System.out.println("长期没收到服务器推送数据");
+                //可以选择重新连接
+            } else if (event.state().equals(IdleState.WRITER_IDLE)) {
+                System.out.println("长期未向服务器发送数据");
+                //发送心跳包
+            } else if (event.state().equals(IdleState.ALL_IDLE)) {
+                System.out.println("ALL");
+            }
         }
     }
 

@@ -10,9 +10,12 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author XiuYang
@@ -53,6 +56,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<NioSocketCha
     @Override
     protected void initChannel(NioSocketChannel ch){
         ChannelPipeline pipeline = ch.pipeline();
+        pipeline.addLast(new IdleStateHandler(5, 0, 0, TimeUnit.SECONDS));
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(GatewayConstants.MAX_AGGREGATED_CONTENT_LENGTH));
         pipeline.addLast(new ChunkedWriteHandler());

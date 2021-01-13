@@ -16,20 +16,20 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ConnectionManager {
 
-    @Autowired
-    private ConnectionChecker connectionChecker;
+    //@Autowired
+    //private ConnectionChecker connectionChecker;
 
     private static final Map<String,Channel> channels = new ConcurrentHashMap<>();
 
-    @PostConstruct
-    private void startChecker(){
-        connectionChecker.check();
-    }
+    //@PostConstruct
+    //private void startChecker(){
+    //    connectionChecker.check();
+    //}
 
 
-    public Map<String,Channel> getAllChannels(){
-        return channels;
-    }
+    //public Map<String,Channel> getAllChannels(){
+    //    return channels;
+    //}
 
     public void heartBeat(ConnectionParam connectionParam){
         Channel channel = channels.get(connectionParam.uniqueKey());
