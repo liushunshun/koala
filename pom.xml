@@ -38,7 +38,7 @@
         <version.fastjson>1.2.60</version.fastjson>
         <version.commons-collections4>4.4</version.commons-collections4>
         <version.commons-lang3>3.9</version.commons-lang3>
-        <version.junit>4.11</version.junit>
+        <version.junit>4.13.1</version.junit>
         <version.lombok>1.18.10</version.lombok>
     </properties>
 
