@@ -34,7 +34,7 @@
         <version.koala-im>1.0-SNAPSHOT</version.koala-im>
 
         <version.netty>4.1.9.Final</version.netty>
-        <version.guava>28.1-jre</version.guava>
+        <version.guava>29.0-jre</version.guava>
         <version.fastjson>1.2.60</version.fastjson>
         <version.commons-collections4>4.4</version.commons-collections4>
         <version.commons-lang3>3.9</version.commons-lang3>
