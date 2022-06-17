@@ -35,7 +35,7 @@
 
         <version.netty>4.1.9.Final</version.netty>
         <version.guava>28.1-jre</version.guava>
-        <version.fastjson>1.2.60</version.fastjson>
+        <version.fastjson>1.2.83</version.fastjson>
         <version.commons-collections4>4.4</version.commons-collections4>
         <version.commons-lang3>3.9</version.commons-lang3>
         <version.junit>4.11</version.junit>
